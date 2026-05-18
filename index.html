@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NHA CCMA Admin &amp; Billing Prep</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#f6f8ff;--surface:rgba(255,255,255,0.82);--surface-solid:#fff;
+--glass:rgba(255,255,255,0.55);--glass-border:rgba(255,255,255,0.45);
+--text:#1a1f36;--text-muted:#5a6178;--text-light:#8b91a8;
+--blue:#3b82f6;--blue-light:#dbeafe;--blue-dark:#1e40af;--blue-glow:rgba(59,130,246,0.15);
+--purple:#8b5cf6;--purple-light:#ede9fe;--purple-glow:rgba(139,92,246,0.15);
+--green:#10b981;--green-light:#d1fae5;--green-glow:rgba(16,185,129,0.15);
+--red:#ef4444;--red-light:#fee2e2;
+--gold:#f59e0b;--gold-light:#fef3c7;--gold-glow:rgba(245,158,11,0.15);
+--teal:#14b8a6;--teal-light:#ccfbf1;--teal-glow:rgba(20,184,166,0.15);
+--orange:#f97316;--orange-light:#ffedd5;--orange-glow:rgba(249,115,22,0.15);
+--pink:#ec4899;--pink-light:#fce7f3;--pink-glow:rgba(236,72,153,0.15);
+--coral:#fb7185;--coral-light:#ffe4e6;
+--sky:#38bdf8;--sky-light:#e0f2fe;
+--lime:#84cc16;--lime-light:#ecfccb;
+--fuchsia:#d946ef;--fuchsia-light:#fae8ff;
+--amber:#fbbf24;--amber-light:#fef9c3;
+--rose:#f43f5e;--rose-light:#ffe4e6;
+--indigo:#6366f1;--indigo-light:#e0e7ff;
+--cyan:#06b6d4;--cyan-light:#cffafe;
+--radius:20px;--radius-sm:14px;--radius-xs:8px;
+--shadow:0 4px 24px rgba(0,0,0,0.06);
+--shadow-lg:0 12px 48px rgba(0,0,0,0.1);
+--shadow-glow:0 0 40px rgba(59,130,246,0.08);
+--font:'Segoe UI',system-ui,-apple-system,sans-serif;
+--transition:0.35s cubic-bezier(0.4,0,0.2,1);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:
+radial-gradient(ellipse 600px 400px at 10% 10%,rgba(139,92,246,0.07),transparent),
+radial-gradient(ellipse 500px 500px at 90% 20%,rgba(236,72,153,0.06),transparent),
+radial-gradient(ellipse 600px 400px at 50% 80%,rgba(59,130,246,0.06),transparent),
+radial-gradient(ellipse 400px 300px at 80% 70%,rgba(20,184,166,0.05),transparent),
+radial-gradient(ellipse 500px 400px at 20% 60%,rgba(249,115,22,0.04),transparent);
+z-index:-1;pointer-events:none}
+
+/* Floating bubbles background */
+@keyframes floatBubble{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.05)}}
+@keyframes floatSlow{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-12px) rotate(2deg)}}
+
+h1{font-size:clamp(2rem,4.5vw,3rem);font-weight:800;letter-spacing:-0.03em;line-height:1.15}
+h2{font-size:clamp(1.5rem,3.2vw,2.2rem);font-weight:800;letter-spacing:-0.02em}
+h3{font-size:clamp(1.1rem,2.5vw,1.4rem);font-weight:700}
+p{max-width:72ch}
+
+.container{max-width:1120px;margin:0 auto;padding:0 20px}
+.page{display:none;animation:fadeUp 0.5s ease}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(59,130,246,0.2)}50%{box-shadow:0 0 20px 4px rgba(59,130,246,0.15)}}
+@keyframes wiggle{0%,100%{transform:rotate(0deg)}25%{transform:rotate(-2deg)}75%{transform:rotate(2deg)}}
+@keyframes bounceIn{0%{transform:scale(0.3);opacity:0}50%{transform:scale(1.05)}70%{transform:scale(0.95)}100%{transform:scale(1);opacity:1}}
+
+/* Glass Card */
+.card{background:var(--surface);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:var(--radius);padding:28px;margin-bottom:22px;box-shadow:var(--shadow);transition:var(--transition)}
+.card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+
+/* Top Nav */
+.top-bar{background:rgba(255,255,255,0.88);backdrop-filter:blur(24px);border-bottom:1px solid rgba(0,0,0,0.05);padding:10px 20px;position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.top-bar .logo{font-weight:900;font-size:1.15rem;background:linear-gradient(135deg,var(--blue),var(--purple),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap}
+.nav-pills{display:flex;gap:5px;flex-wrap:wrap;margin-left:auto}
+.nav-pill{padding:6px 14px;border-radius:99px;border:1.5px solid rgba(0,0,0,0.07);background:transparent;cursor:pointer;font-size:0.8rem;font-weight:700;color:var(--text-muted);transition:var(--transition);white-space:nowrap}
+.nav-pill:hover{background:linear-gradient(135deg,var(--blue-light),var(--purple-light));color:var(--purple);border-color:rgba(139,92,246,0.3);transform:scale(1.05)}
+.nav-pill.active{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;border-color:transparent;box-shadow:0 3px 12px rgba(99,102,241,0.3)}
+
+/* ===== BUTTONS ===== */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 26px;border-radius:99px;border:none;font-size:0.92rem;font-weight:700;cursor:pointer;transition:var(--transition);position:relative;overflow:hidden;letter-spacing:0.01em}
+.btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.25),transparent);pointer-events:none;border-radius:inherit}
+.btn-primary{background:linear-gradient(135deg,#6366f1,#8b5cf6,#a855f7);color:#fff;box-shadow:0 4px 20px rgba(99,102,241,0.35)}
+.btn-primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 8px 32px rgba(99,102,241,0.4)}
+.btn-success{background:linear-gradient(135deg,#10b981,#34d399);color:#fff;box-shadow:0 4px 16px rgba(16,185,129,0.3)}
+.btn-success:hover{transform:translateY(-2px)}
+.btn-hint{background:linear-gradient(135deg,#fef3c7,#fde68a);color:#b45309;border:1.5px solid rgba(245,158,11,0.25);padding:8px 18px;font-size:0.82rem;border-radius:99px}
+.btn-hint:hover{background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#fff;border-color:transparent;transform:scale(1.05)}
+.btn-reveal{background:linear-gradient(135deg,#ede9fe,#e0e7ff);color:#7c3aed;border:1.5px solid rgba(124,58,237,0.2);padding:8px 18px;font-size:0.82rem;border-radius:99px}
+.btn-reveal:hover{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border-color:transparent;transform:scale(1.05)}
+.btn-sm{padding:8px 18px;font-size:0.84rem}
+.btn-outline{background:transparent;border:2.5px solid var(--indigo);color:var(--indigo);border-radius:99px}
+.btn-outline:hover{background:var(--indigo);color:#fff}
+.btn-back{background:var(--surface);border:1.5px solid rgba(0,0,0,0.08);color:var(--text-muted);padding:8px 18px;font-size:0.84rem;border-radius:99px;margin-bottom:20px}
+.btn-back:hover{background:linear-gradient(135deg,var(--indigo-light),var(--purple-light));color:var(--indigo)}
+.btn-group{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+
+/* ===== CALLOUT BOXES — redesigned as bubbly cards ===== */
+.callout{border-radius:var(--radius);padding:18px 22px;margin:14px 0;border:none;font-size:0.92rem;position:relative;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.04)}
+.callout::before{content:'';position:absolute;top:-30px;right:-30px;width:80px;height:80px;border-radius:50%;opacity:0.12;pointer-events:none}
+.callout .callout-title{font-weight:800;margin-bottom:5px;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;display:flex;align-items:center;gap:6px}
+.callout-blue{background:linear-gradient(135deg,#dbeafe,#e0e7ff);color:#1e3a5f}
+.callout-blue::before{background:var(--blue)}
+.callout-gold{background:linear-gradient(135deg,#fef3c7,#ffedd5);color:#78350f}
+.callout-gold::before{background:var(--gold)}
+.callout-green{background:linear-gradient(135deg,#d1fae5,#ccfbf1);color:#064e3b}
+.callout-green::before{background:var(--green)}
+.callout-red{background:linear-gradient(135deg,#fee2e2,#fce7f3);color:#7f1d1d}
+.callout-red::before{background:var(--red)}
+.callout-purple{background:linear-gradient(135deg,#ede9fe,#e0e7ff);color:#4c1d95}
+.callout-purple::before{background:var(--purple)}
+.callout-teal{background:linear-gradient(135deg,#ccfbf1,#cffafe);color:#134e4a}
+.callout-teal::before{background:var(--teal)}
+.callout-orange{background:linear-gradient(135deg,#ffedd5,#fef3c7);color:#7c2d12}
+.callout-orange::before{background:var(--orange)}
+
+/* ===== LESSON CONCEPT CARDS — expandable/collapsible ===== */
+.lesson-concept{border-radius:var(--radius);margin:16px 0;overflow:hidden;border:2px solid rgba(0,0,0,0.04);transition:var(--transition);background:var(--surface)}
+.lesson-concept:hover{border-color:rgba(99,102,241,0.15)}
+.lesson-concept-header{padding:18px 24px;cursor:pointer;display:flex;align-items:center;gap:14px;transition:var(--transition);user-select:none}
+.lesson-concept-header:hover{background:rgba(99,102,241,0.04)}
+.lesson-concept-header .concept-icon{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;box-shadow:0 3px 12px rgba(0,0,0,0.08)}
+.lesson-concept-header h3{flex:1;margin:0;font-size:1.05rem}
+.lesson-concept-header .expand-arrow{font-size:1.2rem;color:var(--text-light);transition:var(--transition);font-weight:800}
+.lesson-concept.open .expand-arrow{transform:rotate(180deg);color:var(--indigo)}
+.lesson-concept-body{max-height:0;overflow:hidden;transition:max-height 0.5s ease}
+.lesson-concept.open .lesson-concept-body{max-height:3000px}
+.lesson-concept-inner{padding:0 24px 24px}
+
+.lesson-mini-check{margin-top:16px;padding:18px;border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,0.78),rgba(237,233,254,0.72),rgba(219,234,254,0.68));border:1.5px solid rgba(255,255,255,0.72);box-shadow:0 10px 30px rgba(99,102,241,0.14), inset 0 1px 0 rgba(255,255,255,0.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.lesson-mini-check h4{font-size:0.98rem;margin-bottom:8px;color:var(--indigo);display:flex;align-items:center;gap:6px}
+.lesson-mini-check p{font-size:0.88rem;color:var(--text-muted);margin-bottom:12px}
+.concept-check-options{display:grid;grid-template-columns:1fr;gap:9px;margin-top:10px}
+.concept-check-btn{width:100%;text-align:left;min-height:58px;padding:13px 16px;border-radius:16px;border:1.5px solid rgba(99,102,241,0.16);background:linear-gradient(135deg,rgba(255,255,255,0.92),rgba(255,255,255,0.62));box-shadow:0 7px 18px rgba(99,102,241,0.10), inset 0 1px 0 rgba(255,255,255,0.95);font-family:inherit;font-weight:750;font-size:0.9rem;color:var(--text);cursor:pointer;transition:var(--transition)}
+.concept-check-btn:hover{transform:translateY(-2px);border-color:rgba(99,102,241,0.35);box-shadow:0 12px 26px rgba(99,102,241,0.16), inset 0 1px 0 rgba(255,255,255,0.95)}
+.concept-check-btn.correct-choice{background:linear-gradient(135deg,#d1fae5,#ccfbf1);border-color:var(--green);color:#065f46;box-shadow:0 10px 25px rgba(16,185,129,0.18)}
+.concept-check-btn.wrong-choice{background:linear-gradient(135deg,#fee2e2,#fce7f3);border-color:var(--red);color:#7f1d1d;box-shadow:0 10px 25px rgba(239,68,68,0.12)}
+.lesson-feedback{display:none;margin-top:12px;padding:13px 15px;border-radius:16px;background:linear-gradient(135deg,#d1fae5,#ccfbf1);border:1.5px solid var(--green);color:#065f46;font-size:0.88rem;box-shadow:0 8px 20px rgba(16,185,129,0.12)}
+.lesson-feedback.show{display:block;animation:fadeUp 0.3s ease}
+.lesson-feedback.wrong{background:linear-gradient(135deg,#fff7ed,#fef3c7);border-color:var(--gold);color:#78350f}
+
+/* ===== CLOUD FLASHCARDS ===== */
+.flashcard-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;margin:16px 0;align-items:start}
+
+.cloud-card{position:relative;cursor:pointer;min-height:220px;animation:none;transition:var(--transition)}
+.cloud-card:nth-child(2),.cloud-card:nth-child(3),.cloud-card:nth-child(4),.cloud-card:nth-child(5),.cloud-card:nth-child(6),.cloud-card:nth-child(7),.cloud-card:nth-child(8){animation-delay:0s}
+.cloud-card:hover{transform:translateY(-4px) scale(1.01);z-index:2}
+.cloud-card:hover .cloud-inner{box-shadow:0 16px 48px rgba(0,0,0,0.12)}
+
+/* Flashcards expand in the grid instead of overlapping the card underneath. */
+.cloud-inner{position:relative;width:100%;min-height:220px;transition:box-shadow .35s ease;border-radius:28px}
+.cloud-card.flipped{height:auto;min-height:220px}
+.cloud-card.flipped .cloud-inner{transform:none;height:auto;min-height:220px}
+
+.cloud-front,.cloud-back{border-radius:28px;padding:28px 24px;position:relative;overflow:hidden;box-shadow:0 8px 28px rgba(15,23,42,0.08)}
+.cloud-front::before,.cloud-back::before{content:'';position:absolute;top:-40%;right:-30%;width:120px;height:120px;border-radius:50%;opacity:0.15;pointer-events:none}
+.cloud-front::after{content:'';position:absolute;bottom:-20%;left:-20%;width:90px;height:90px;border-radius:50%;opacity:0.1;pointer-events:none}
+
+.cloud-front{display:flex;flex-direction:column;justify-content:center;min-height:220px}
+.cloud-front h3{font-size:1.15rem;margin-bottom:8px;line-height:1.3}
+.cloud-front .tap-hint{font-size:0.78rem;margin-top:auto;opacity:0.6;font-weight:600}
+
+.cloud-back{display:none;position:relative;width:100%;min-height:220px;height:auto}
+.cloud-card.flipped .cloud-front{display:none}
+.cloud-card.flipped .cloud-back{display:block;animation:fadeUp .25s ease}
+.cloud-back p{font-size:0.9rem;margin-bottom:6px}
+.cloud-back .hook{font-size:0.82rem;font-weight:700;margin-top:auto;padding-top:8px}
+.flash-label{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,0.62);font-size:0.72rem;font-weight:900;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px}
+.flash-chip{display:inline-block;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,0.68);font-size:0.75rem;font-weight:800;margin:3px 3px 3px 0}
+.flash-mini-grid{display:grid;gap:8px;margin-top:8px}
+.flash-mini{border-radius:14px;padding:9px 11px;background:rgba(255,255,255,0.72);box-shadow:inset 0 0 0 1px rgba(255,255,255,0.45)}
+.cloud-back .flash-mini{color:rgba(15,23,42,0.88)}
+.cloud-back .flash-mini strong{color:#111827}
+
+/* ===== EOB SIMULATION LAB ===== */
+.eob-panel{background:rgba(255,255,255,0.86);border:2px solid rgba(59,130,246,0.14);border-radius:24px;padding:20px;margin:16px 0;box-shadow:0 8px 28px rgba(59,130,246,0.08)}
+.eob-header{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-bottom:12px;border-bottom:2px dashed rgba(99,102,241,0.18);margin-bottom:12px}
+.eob-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:0.78rem;font-weight:900;background:linear-gradient(135deg,#dbeafe,#ede9fe);color:#3730a3}
+.eob-table{width:100%;border-collapse:separate;border-spacing:0 8px;margin:10px 0;font-size:0.88rem}
+.eob-table th{text-align:left;color:#475569;font-size:0.76rem;text-transform:uppercase;letter-spacing:0.05em;padding:4px 8px}
+.eob-table td{background:#fff;padding:11px 8px;border-top:1px solid rgba(99,102,241,0.12);border-bottom:1px solid rgba(99,102,241,0.12);font-weight:700}
+.eob-table td:first-child{border-left:1px solid rgba(99,102,241,0.12);border-radius:14px 0 0 14px}
+.eob-table td:last-child{border-right:1px solid rgba(99,102,241,0.12);border-radius:0 14px 14px 0}
+.eob-workgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:14px}
+.eob-workcard{background:linear-gradient(135deg,#ffffff,#f8fafc);border:1.5px solid rgba(99,102,241,0.13);border-radius:18px;padding:14px}
+.eob-workcard label{font-size:0.8rem;font-weight:900;color:#475569;display:block;margin-bottom:7px}
+.eob-workcard input,.eob-workcard select{width:100%;padding:10px 12px;border:2px solid rgba(0,0,0,0.08);border-radius:12px;font-family:inherit;font-size:0.92rem}
+.eob-workcard input:focus,.eob-workcard select:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 3px rgba(99,102,241,0.10)}
+.eob-feedback{display:none;border-radius:18px;padding:16px;margin-top:14px;font-size:0.9rem}
+.eob-feedback.show{display:block;animation:fadeUp 0.35s ease}
+.eob-feedback.good{background:linear-gradient(135deg,#d1fae5,#ccfbf1);border:2px solid #10b981;color:#064e3b}
+.eob-feedback.needs-work{background:linear-gradient(135deg,#fff7ed,#fef3c7);border:2px solid #f59e0b;color:#78350f}
+.eob-step-list{margin:8px 0 0 18px;font-size:0.88rem}
+.eob-step-list li{margin:5px 0}
+
+/* Cloud color palettes */
+.cloud-rose .cloud-front{background:linear-gradient(135deg,#ffe4e6,#fecdd3,#fda4af);color:#881337}
+.cloud-rose .cloud-back{background:linear-gradient(135deg,#fda4af,#fb7185,#f43f5e);color:#fff}
+.cloud-rose .cloud-front::before,.cloud-rose .cloud-front::after{background:#f43f5e}
+
+.cloud-sky .cloud-front{background:linear-gradient(135deg,#e0f2fe,#bae6fd,#7dd3fc);color:#0c4a6e}
+.cloud-sky .cloud-back{background:linear-gradient(135deg,#7dd3fc,#38bdf8,#0ea5e9);color:#fff}
+.cloud-sky .cloud-front::before,.cloud-sky .cloud-front::after{background:#0ea5e9}
+
+.cloud-violet .cloud-front{background:linear-gradient(135deg,#ede9fe,#ddd6fe,#c4b5fd);color:#4c1d95}
+.cloud-violet .cloud-back{background:linear-gradient(135deg,#c4b5fd,#a78bfa,#8b5cf6);color:#fff}
+.cloud-violet .cloud-front::before,.cloud-violet .cloud-front::after{background:#8b5cf6}
+
+.cloud-emerald .cloud-front{background:linear-gradient(135deg,#d1fae5,#a7f3d0,#6ee7b7);color:#064e3b}
+.cloud-emerald .cloud-back{background:linear-gradient(135deg,#6ee7b7,#34d399,#10b981);color:#fff}
+.cloud-emerald .cloud-front::before,.cloud-emerald .cloud-front::after{background:#10b981}
+
+.cloud-amber .cloud-front{background:linear-gradient(135deg,#fef3c7,#fde68a,#fcd34d);color:#78350f}
+.cloud-amber .cloud-back{background:linear-gradient(135deg,#fcd34d,#fbbf24,#f59e0b);color:#fff}
+.cloud-amber .cloud-front::before,.cloud-amber .cloud-front::after{background:#f59e0b}
+
+.cloud-fuchsia .cloud-front{background:linear-gradient(135deg,#fae8ff,#f0abfc,#e879f9);color:#701a75}
+.cloud-fuchsia .cloud-back{background:linear-gradient(135deg,#e879f9,#d946ef,#c026d3);color:#fff}
+.cloud-fuchsia .cloud-front::before,.cloud-fuchsia .cloud-front::after{background:#d946ef}
+
+.cloud-cyan .cloud-front{background:linear-gradient(135deg,#cffafe,#a5f3fc,#67e8f9);color:#164e63}
+.cloud-cyan .cloud-back{background:linear-gradient(135deg,#67e8f9,#22d3ee,#06b6d4);color:#fff}
+.cloud-cyan .cloud-front::before,.cloud-cyan .cloud-front::after{background:#06b6d4}
+
+.cloud-orange .cloud-front{background:linear-gradient(135deg,#ffedd5,#fed7aa,#fdba74);color:#7c2d12}
+.cloud-orange .cloud-back{background:linear-gradient(135deg,#fdba74,#fb923c,#f97316);color:#fff}
+.cloud-orange .cloud-front::before,.cloud-orange .cloud-front::after{background:#f97316}
+
+.cloud-lime .cloud-front{background:linear-gradient(135deg,#ecfccb,#d9f99d,#bef264);color:#365314}
+.cloud-lime .cloud-back{background:linear-gradient(135deg,#bef264,#a3e635,#84cc16);color:#fff}
+.cloud-lime .cloud-front::before,.cloud-lime .cloud-front::after{background:#84cc16}
+
+.cloud-indigo .cloud-front{background:linear-gradient(135deg,#e0e7ff,#c7d2fe,#a5b4fc);color:#312e81}
+.cloud-indigo .cloud-back{background:linear-gradient(135deg,#a5b4fc,#818cf8,#6366f1);color:#fff}
+.cloud-indigo .cloud-front::before,.cloud-indigo .cloud-front::after{background:#6366f1}
+
+.cloud-teal .cloud-front{background:linear-gradient(135deg,#ccfbf1,#99f6e4,#5eead4);color:#134e4a}
+.cloud-teal .cloud-back{background:linear-gradient(135deg,#5eead4,#2dd4bf,#14b8a6);color:#fff}
+.cloud-teal .cloud-front::before,.cloud-teal .cloud-front::after{background:#14b8a6}
+
+/* ===== PROGRESS ===== */
+.progress-bar{width:100%;height:10px;background:rgba(0,0,0,0.05);border-radius:99px;overflow:hidden;margin:8px 0}
+.progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#6366f1,#8b5cf6,#ec4899);transition:width 0.8s ease}
+
+/* ===== STATION MAP ===== */
+.station-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin-top:20px}
+.station-card{border-radius:24px;padding:28px;cursor:pointer;transition:var(--transition);position:relative;overflow:hidden;border:2px solid transparent}
+.station-card::before{content:'';position:absolute;inset:0;opacity:0.06;pointer-events:none;border-radius:inherit}
+.station-card:hover{transform:translateY(-6px) scale(1.01);border-color:rgba(99,102,241,0.2)}
+.station-card .station-num{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1rem;color:#fff;margin-bottom:12px;box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+.station-card h3{margin-bottom:6px;font-size:1.05rem}
+.station-card p{font-size:0.85rem;color:var(--text-muted)}
+.station-card .badge-done{position:absolute;top:14px;right:14px;background:linear-gradient(135deg,#10b981,#34d399);color:#fff;font-size:0.72rem;padding:4px 12px;border-radius:99px;font-weight:800;box-shadow:0 2px 8px rgba(16,185,129,0.3)}
+
+.sc-blue{background:linear-gradient(135deg,rgba(59,130,246,0.08),rgba(99,102,241,0.06));box-shadow:0 4px 20px rgba(59,130,246,0.08)}
+.sc-purple{background:linear-gradient(135deg,rgba(139,92,246,0.08),rgba(168,85,247,0.06));box-shadow:0 4px 20px rgba(139,92,246,0.08)}
+.sc-teal{background:linear-gradient(135deg,rgba(20,184,166,0.08),rgba(6,182,212,0.06));box-shadow:0 4px 20px rgba(20,184,166,0.08)}
+.sc-orange{background:linear-gradient(135deg,rgba(249,115,22,0.08),rgba(245,158,11,0.06));box-shadow:0 4px 20px rgba(249,115,22,0.08)}
+.sc-green{background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(52,211,153,0.06));box-shadow:0 4px 20px rgba(16,185,129,0.08)}
+.sc-pink{background:linear-gradient(135deg,rgba(236,72,153,0.08),rgba(244,63,94,0.06));box-shadow:0 4px 20px rgba(236,72,153,0.08)}
+
+/* ===== QUESTION BLOCKS ===== */
+.q-block{background:var(--surface);border:2px solid rgba(0,0,0,0.04);border-radius:var(--radius);padding:24px;margin:18px 0;transition:var(--transition)}
+.q-block:hover{border-color:rgba(99,102,241,0.1)}
+.q-stem{font-weight:700;margin-bottom:14px;font-size:1rem;line-height:1.5}
+.q-options{display:flex;flex-direction:column;gap:8px}
+.q-opt{padding:13px 18px;border:2px solid rgba(0,0,0,0.07);border-radius:var(--radius-sm);cursor:pointer;transition:var(--transition);font-size:0.92rem;display:flex;align-items:flex-start;gap:12px}
+.q-opt:hover{border-color:var(--indigo);background:var(--indigo-light);transform:translateX(4px)}
+.q-opt.selected{border-color:var(--indigo);background:var(--indigo-light);font-weight:600}
+.q-opt.correct{border-color:var(--green);background:var(--green-light);animation:popIn 0.3s ease}
+.q-opt.incorrect{border-color:var(--red);background:var(--red-light)}
+.q-opt .letter{min-width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,rgba(99,102,241,0.1),rgba(139,92,246,0.1));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.82rem;flex-shrink:0;color:var(--indigo)}
+.q-opt.selected .letter{background:var(--indigo);color:#fff}
+.q-feedback{margin-top:14px;padding:16px;border-radius:var(--radius-sm);font-size:0.9rem;display:none}
+.q-feedback.show{display:block;animation:bounceIn 0.4s ease}
+.q-feedback.correct-fb{background:linear-gradient(135deg,#d1fae5,#ccfbf1);border:1.5px solid var(--green);color:#065f46}
+.q-feedback.incorrect-fb{background:linear-gradient(135deg,#fee2e2,#fce7f3);border:1.5px solid var(--red);color:#7f1d1d}
+.q-hints{margin-top:8px;font-size:0.86rem}
+.q-hints p{margin:4px 0;padding:8px 14px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:var(--radius-xs);display:none;color:#92400e;border-left:3px solid var(--gold)}
+.q-hints p.show{display:block;animation:fadeUp 0.3s ease}
+
+/* ===== ACTIVITY ===== */
+.activity-area{background:linear-gradient(135deg,rgba(14,165,233,0.06),rgba(168,85,247,0.06),rgba(236,72,153,0.04));border:2px dashed rgba(99,102,241,0.2);border-radius:var(--radius);padding:28px;margin:18px 0;position:relative;overflow:hidden}
+.activity-area::before{content:'';position:absolute;top:-50px;right:-50px;width:150px;height:150px;border-radius:50%;background:rgba(139,92,246,0.06);pointer-events:none}
+.activity-area h3{color:var(--indigo);margin-bottom:12px}
+.sort-item{display:inline-block;padding:10px 18px;margin:5px;border-radius:99px;background:var(--surface-solid);border:1.5px solid rgba(0,0,0,0.08);cursor:pointer;font-size:0.86rem;font-weight:700;transition:var(--transition);user-select:none}
+.sort-item:hover{transform:scale(1.06);box-shadow:0 4px 16px rgba(99,102,241,0.15);border-color:var(--indigo)}
+.sort-item.placed{opacity:0.4;pointer-events:none}
+.sort-bucket{min-height:80px;border:2px dashed rgba(0,0,0,0.1);border-radius:var(--radius);padding:14px;margin:8px 0;transition:var(--transition)}
+.sort-bucket:hover{border-color:rgba(99,102,241,0.3)}
+.sort-bucket .bucket-title{font-weight:800;font-size:0.84rem;margin-bottom:8px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em}
+.sort-bucket .placed-item{display:inline-block;padding:5px 14px;margin:3px;border-radius:99px;font-size:0.8rem;font-weight:700;color:#fff}
+
+/* ===== CHALLENGE ===== */
+.challenge-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.timer{font-size:1.3rem;font-weight:800;color:var(--indigo);font-variant-numeric:tabular-nums;background:var(--indigo-light);padding:4px 16px;border-radius:99px}
+.q-counter{font-size:0.9rem;color:var(--text-muted);font-weight:700}
+.challenge-options{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.challenge-opt{padding:18px 32px;border:2.5px solid rgba(0,0,0,0.08);border-radius:var(--radius);cursor:pointer;font-weight:800;font-size:1.2rem;transition:var(--transition);background:var(--surface)}
+.challenge-opt:hover,.challenge-opt.selected{border-color:var(--indigo);background:linear-gradient(135deg,var(--indigo-light),var(--purple-light));color:var(--indigo);transform:scale(1.05)}
+
+/* ===== STATS ===== */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin:16px 0}
+.stat-card{background:var(--surface);border:1.5px solid var(--glass-border);border-radius:var(--radius);padding:22px;text-align:center;transition:var(--transition)}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.stat-card .stat-num{font-size:2.2rem;font-weight:900;line-height:1;background:linear-gradient(135deg,var(--indigo),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-card .stat-label{font-size:0.82rem;color:var(--text-muted);margin-top:6px;font-weight:600}
+
+/* ===== TABS ===== */
+.tabs{display:flex;gap:4px;border-bottom:2px solid rgba(0,0,0,0.05);margin-bottom:22px;overflow-x:auto;padding-bottom:2px}
+.tab{padding:10px 20px;border:none;background:transparent;font-weight:700;font-size:0.86rem;color:var(--text-muted);cursor:pointer;border-bottom:3px solid transparent;transition:var(--transition);white-space:nowrap;border-radius:10px 10px 0 0}
+.tab:hover{color:var(--indigo);background:rgba(99,102,241,0.04)}
+.tab.active{color:var(--indigo);border-bottom-color:var(--indigo);background:rgba(99,102,241,0.06)}
+.tab-content{display:none;animation:fadeUp 0.4s ease}
+.tab-content.active{display:block}
+
+/* ===== CALC ===== */
+.calc-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0;align-items:center}
+.calc-row label{font-weight:700;font-size:0.9rem}
+.calc-row input,.calc-row select{padding:11px 14px;border:2px solid rgba(0,0,0,0.08);border-radius:var(--radius-xs);font-size:0.95rem;font-family:inherit;transition:var(--transition)}
+.calc-row input:focus,.calc-row select:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 3px rgba(99,102,241,0.1)}
+.calc-result{background:linear-gradient(135deg,#d1fae5,#ccfbf1);border:1.5px solid var(--green);border-radius:var(--radius);padding:18px;margin-top:14px;font-weight:600;color:#065f46}
+
+/* ===== HERO ===== */
+.hero{text-align:center;padding:70px 20px 45px;position:relative}
+.hero h1{margin-bottom:14px}
+.hero h1 span{background:linear-gradient(135deg,#6366f1,#8b5cf6,#ec4899,#f43f5e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% auto;animation:shimmer 4s linear infinite}
+.hero p{color:var(--text-muted);max-width:620px;margin:0 auto 28px;font-size:1.05rem}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--indigo-light),var(--purple-light));padding:6px 18px;border-radius:99px;font-size:0.82rem;font-weight:700;color:var(--indigo);margin-bottom:16px}
+
+/* ===== STRATEGY BOX ===== */
+.strategy-box{background:linear-gradient(135deg,#fef3c7,#fffbeb,#fef9c3);border:2.5px solid var(--gold);border-radius:var(--radius);padding:24px;margin:22px 0;position:relative;overflow:hidden}
+.strategy-box::before{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;border-radius:50%;background:rgba(245,158,11,0.1);pointer-events:none}
+.strategy-box h3{color:#b45309;margin-bottom:10px}
+.strategy-box ul{margin-left:18px;font-size:0.9rem}
+.strategy-box li{margin:6px 0;line-height:1.5}
+
+/* ===== SECTION HEADER ===== */
+.section-header{padding:20px 0;margin:20px 0 10px}
+.section-header h2{display:flex;align-items:center;gap:12px}
+.section-icon{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#fff;flex-shrink:0;box-shadow:0 4px 16px rgba(0,0,0,0.12)}
+
+/* ===== COPY ===== */
+.copy-area{background:rgba(99,102,241,0.04);border:1.5px solid rgba(99,102,241,0.15);border-radius:var(--radius-sm);padding:16px;font-family:monospace;font-size:0.83rem;white-space:pre-wrap;max-height:300px;overflow-y:auto;margin:12px 0}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+.container{padding:0 14px}
+.card{padding:20px}
+.station-grid,.flashcard-grid{grid-template-columns:1fr}
+.calc-row{grid-template-columns:1fr}
+.nav-pills{margin-left:0;width:100%}
+.top-bar{padding:8px 14px}
+.hero{padding:40px 14px 30px}
+.tabs{gap:2px}
+.tab{padding:8px 12px;font-size:0.79rem}
+.stat-grid{grid-template-columns:1fr 1fr}
+.cloud-card{min-height:190px}
+.cloud-front,.cloud-back{min-height:190px;padding:22px 20px}
+}
+@media(max-width:480px){
+.stat-grid{grid-template-columns:1fr}
+.btn-group{flex-direction:column}
+.challenge-options{flex-direction:column}
+.flashcard-grid{grid-template-columns:1fr}
+}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(99,102,241,0.2);border-radius:99px}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+<div class="logo">CCMA Billing Prep</div>
+<div class="nav-pills" id="navPills">
+<button class="nav-pill active" onclick="goTo('welcome')">Home</button>
+<button class="nav-pill" onclick="goTo('map')">Map</button>
+<button class="nav-pill" onclick="goTo('station1')">S1</button>
+<button class="nav-pill" onclick="goTo('station2')">S2</button>
+<button class="nav-pill" onclick="goTo('station3')">S3</button>
+<button class="nav-pill" onclick="goTo('station4')">S4</button>
+<button class="nav-pill" onclick="goTo('station5')">S5</button>
+<button class="nav-pill" onclick="goTo('station6')">S6</button>
+<button class="nav-pill" onclick="goTo('challenge')">Challenge</button>
+<button class="nav-pill" onclick="goTo('dashboard')">Report</button>
+</div>
+</div>
+
+<div class="page active" id="page-welcome">
+<div class="container">
+<div class="hero">
+<div class="hero-badge">&#127891; NHA CCMA Exam Prep</div>
+<h1>Master <span>Medical Billing &amp; Insurance</span></h1>
+<p>You are not just memorizing terms. You are learning how insurance, forms, coding manuals, and claim decisions work together — building real understanding for the NHA CCMA exam.</p>
+<button class="btn btn-primary" onclick="goTo('map')" style="font-size:1.05rem;padding:16px 36px">Begin Your Journey &#10132;</button>
+</div>
+<div class="card" style="max-width:720px;margin:0 auto">
+<h3 style="margin-bottom:10px">&#127919; What You Will Learn</h3>
+<p style="font-size:0.92rem;color:var(--text-muted)">This interactive review covers the administrative and billing portion of the NHA CCMA exam: verifying insurance, understanding claim submission, recognizing forms, and applying basic coding concepts.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:16px">
+<div class="callout callout-blue" style="margin:0"><div class="callout-title">&#128179; Insurance</div>Copay, deductible, coinsurance</div>
+<div class="callout callout-purple" style="margin:0"><div class="callout-title">&#128196; Authorization</div>Prior auth, referrals, COB</div>
+<div class="callout callout-teal" style="margin:0"><div class="callout-title">&#128203; Forms</div>CMS-1500, EOB, RA, ABN</div>
+<div class="callout callout-orange" style="margin:0"><div class="callout-title">&#128187; Coding</div>ICD-10, CPT, HCPCS</div>
+<div class="callout callout-green" style="margin:0"><div class="callout-title">&#127963; Plans</div>Medicare, Medicaid, HMO, PPO</div>
+<div class="callout callout-red" style="margin:0"><div class="callout-title">&#129658; Body Systems</div>Claim logic &amp; medical necessity</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="page" id="page-map">
+<div class="container" style="padding-top:30px;padding-bottom:40px">
+<h2 style="margin-bottom:6px">&#128506; Learning Map</h2>
+<p style="color:var(--text-muted);margin-bottom:4px">Complete each station. Your progress is tracked automatically.</p>
+<div class="progress-bar"><div class="progress-fill" id="mapProgress" style="width:0%"></div></div>
+<div id="mapStatus" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:8px">0 of 6 stations completed</div>
+<div class="station-grid" id="stationGrid"></div>
+<div style="margin-top:28px;text-align:center">
+<button class="btn btn-outline" onclick="goTo('challenge')">&#9201; Skip to Challenge Mode</button>
+</div>
+</div>
+</div>
+
+<div class="page" id="page-station1"><div class="container" id="st1Content"></div></div>
+<div class="page" id="page-station2"><div class="container" id="st2Content"></div></div>
+<div class="page" id="page-station3"><div class="container" id="st3Content"></div></div>
+<div class="page" id="page-station4"><div class="container" id="st4Content"></div></div>
+<div class="page" id="page-station5"><div class="container" id="st5Content"></div></div>
+<div class="page" id="page-station6"><div class="container" id="st6Content"></div></div>
+<div class="page" id="page-challenge"><div class="container" id="challengeContent"></div></div>
+<div class="page" id="page-dashboard"><div class="container" id="dashContent"></div></div>
+
+<script>
+const stationMeta=[
+{id:1,title:'Insurance Basics',icon:'&#128179;',color:'var(--blue)',colorHex:'#3b82f6',desc:'Copay, deductible, coinsurance, allowed amounts, and who pays whom.',scClass:'sc-blue'},
+{id:2,title:'Prior Auth, Referrals & COB',icon:'&#128196;',color:'var(--purple)',colorHex:'#8b5cf6',desc:'When prior authorization or referral is needed and how COB works.',scClass:'sc-purple'},
+{id:3,title:'Billing Forms & Documents',icon:'&#128203;',color:'var(--teal)',colorHex:'#14b8a6',desc:'CMS-1500, EOB, Remittance Advice, ABN, and payment tracking.',scClass:'sc-teal'},
+{id:4,title:'Coding Manuals & Application',icon:'&#128187;',color:'var(--orange)',colorHex:'#f97316',desc:'ICD-10-CM, CPT, HCPCS, modifiers, and linking codes.',scClass:'sc-orange'},
+{id:5,title:'Insurance Plans & Government',icon:'&#127963;',color:'var(--green)',colorHex:'#10b981',desc:'Medicare, Medicaid, TRICARE, HMO, PPO, and managed care.',scClass:'sc-green'},
+{id:6,title:'Body System & Claim Logic',icon:'&#129658;',color:'var(--pink)',colorHex:'#ec4899',desc:'Connecting diagnoses, procedures, and medical necessity.',scClass:'sc-pink'}
+];
+
+let completed={}, challengeResults=null, totalTimeSpent=0;
+
+const cloudColors=['cloud-rose','cloud-sky','cloud-violet','cloud-emerald','cloud-amber','cloud-fuchsia','cloud-cyan','cloud-orange','cloud-lime','cloud-indigo','cloud-teal'];
+function cc(i){return cloudColors[i%cloudColors.length];}
+
+// NAV
+function goTo(page){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+let t=document.getElementById('page-'+page);if(t)t.classList.add('active');
+document.querySelectorAll('.nav-pill').forEach(p=>p.classList.remove('active'));
+window.scrollTo({top:0,behavior:'smooth'});
+if(page==='map')updateMap();
+if(page==='dashboard')renderDashboard();
+if(page==='challenge'&&!document.getElementById('challengeContent').innerHTML)renderChallengeSetup();
+}
+
+// MAP
+function updateMap(){
+let g=document.getElementById('stationGrid');g.innerHTML='';
+stationMeta.forEach(s=>{
+let done=completed['s'+s.id];
+g.innerHTML+=`<div class="station-card ${s.scClass}" onclick="goTo('station${s.id}')">
+${done?'<div class="badge-done">&#10003; Done</div>':''}
+<div class="station-num" style="background:${s.colorHex}">${s.id}</div>
+<h3>${s.icon} ${s.title}</h3><p>${s.desc}</p></div>`;
+});
+let ct=Object.keys(completed).length;
+document.getElementById('mapProgress').style.width=(ct/6*100)+'%';
+document.getElementById('mapStatus').textContent=ct+' of 6 stations completed';
+}
+
+// QUESTION SYSTEM
+function buildQuestion(q,idx,prefix,showHints){
+let hId=prefix+'_h_'+idx,fId=prefix+'_f_'+idx,L=['A','B','C','D'];
+let h=`<div class="q-block" id="${prefix}_q${idx}"><div class="q-stem">${idx+1}. ${q.stem}</div><div class="q-options">`;
+q.options.forEach((o,i)=>{h+=`<div class="q-opt" data-idx="${i}" onclick="selectOpt(this)"><span class="letter">${L[i]}</span><span>${o}</span></div>`;});
+h+=`</div><div class="btn-group"><button class="btn btn-sm btn-primary" onclick="checkQ('${prefix}',${idx})">Check Answer</button>`;
+if(showHints)h+=`<button class="btn btn-hint" onclick="showHint('${hId}',0)">Hint 1</button><button class="btn btn-hint" onclick="showHint('${hId}',1)">Hint 2</button><button class="btn btn-hint" onclick="showHint('${hId}',2)">Hint 3</button>`;
+h+=`<button class="btn btn-reveal" onclick="revealQ('${prefix}',${idx})">Reveal</button></div>`;
+if(showHints&&q.hints)h+=`<div class="q-hints" id="${hId}"><p>${q.hints[0]||''}</p><p>${q.hints[1]||''}</p><p>${q.hints[2]||''}</p></div>`;
+h+=`<div class="q-feedback" id="${fId}"></div></div>`;return h;
+}
+function selectOpt(el){el.closest('.q-options').querySelectorAll('.q-opt').forEach(o=>o.classList.remove('selected'));el.classList.add('selected');}
+window._qdata={};
+function registerQs(p,qs){window._qdata[p]=qs;}
+function checkQ(p,i){let q=window._qdata[p][i],b=document.getElementById(p+'_q'+i),s=b.querySelector('.q-opt.selected'),f=document.getElementById(p+'_f_'+i);if(!s){f.className='q-feedback show incorrect-fb';f.textContent='Please select an answer.';return;}let c=parseInt(s.dataset.idx);b.querySelectorAll('.q-opt').forEach((o,j)=>{if(j===q.answer)o.classList.add('correct');if(j===c&&j!==q.answer)o.classList.add('incorrect');o.style.pointerEvents='none';});f.className=c===q.answer?'q-feedback show correct-fb':'q-feedback show incorrect-fb';f.innerHTML=(c===q.answer?'<strong>&#10003; Correct!</strong> ':'<strong>&#10007; Not quite.</strong> ')+q.rationale;}
+function revealQ(p,i){let q=window._qdata[p][i],b=document.getElementById(p+'_q'+i),f=document.getElementById(p+'_f_'+i);b.querySelectorAll('.q-opt').forEach((o,j)=>{if(j===q.answer)o.classList.add('correct');o.style.pointerEvents='none';});f.className='q-feedback show correct-fb';f.innerHTML='<strong>Answer revealed.</strong> '+q.rationale;}
+function showHint(hId,n){let h=document.getElementById(hId);if(h){let ps=h.querySelectorAll('p');if(ps[n])ps[n].classList.add('show');}}
+function showTab(btn,tabId){btn.closest('.container').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');btn.closest('.container').querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.getElementById(tabId).classList.add('active');}
+function markComplete(n){completed['s'+n]=true;goTo('map');}
+
+// ===== BUILD CLOUD FLASHCARD =====
+function buildCloudCard(card,index){
+let color=cc(index);
+return `<div class="cloud-card ${color}" onclick="this.classList.toggle('flipped')">
+<div class="cloud-inner">
+<div class="cloud-front">
+<span class="flash-label">Term</span>
+<h3>${card.term}</h3>
+<div style="margin-top:8px">
+<span class="flash-chip">meaning</span><span class="flash-chip">example</span><span class="flash-chip">trap</span>
+</div>
+<p style="font-size:0.88rem;opacity:0.78;margin-top:10px">${card.def.substring(0,70)}…</p>
+<span class="tap-hint">&#128070; Tap to flip</span>
+</div>
+<div class="cloud-back">
+<div class="flash-mini-grid">
+<div class="flash-mini"><strong>&#128218; Meaning:</strong> ${card.def}</div>
+<div class="flash-mini"><strong>&#127970; Office example:</strong> ${card.example}</div>
+<div class="flash-mini"><strong>&#9888;&#65039; Test trap:</strong> ${card.trap||'Watch the exact wording before choosing.'}</div>
+<div class="flash-mini"><strong>&#128161; Hook:</strong> ${card.hook}</div>
+</div>
+</div>
+</div></div>`;
+}
+
+// ===== BUILD LESSON CONCEPT (expandable) =====
+function escHtml(str){return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function buildLessonConcept(concept,index,iconBg){
+let answerId='lessonCheck_'+concept.term.replace(/[^a-zA-Z0-9]/g,'_')+'_'+index+'_answer';
+let rationale=`<strong>Rationale:</strong> The strongest answer applies the rule to the scenario before choosing. For <strong>${concept.term}</strong>, the key issue is: ${concept.trap} <br><strong>Memory hook:</strong> ${concept.hook}`;
+let choices=shuffleLessonChoices([
+{correct:true,text:'Apply the rule, then choose.'},
+{correct:false,text:'Pick the familiar term first.'},
+{correct:false,text:'Use one clue, then guess.'}
+]);
+let choiceButtons=choices.map(ch=>`<button class="concept-check-btn" type="button" data-correct="${ch.correct}" onclick="lessonConceptCheck(this); event.stopPropagation();">${ch.text}</button>`).join('');
+return `<div class="lesson-concept">
+<div class="lesson-concept-header" onclick="this.closest('.lesson-concept').classList.toggle('open')">
+<div class="concept-icon" style="background:${iconBg||'linear-gradient(135deg,#6366f1,#8b5cf6)'};color:#fff">${index+1}</div>
+<h3>${concept.term}</h3>
+<span class="expand-arrow">&#9660;</span>
+</div>
+<div class="lesson-concept-body"><div class="lesson-concept-inner">
+<div class="callout callout-blue"><div class="callout-title">&#128218; Simple Definition</div>${concept.def}</div>
+<div class="callout callout-green"><div class="callout-title">&#127970; Medical Office Example</div>${concept.example}</div>
+<div class="callout callout-gold"><div class="callout-title">&#9888;&#65039; NHA Test Trap</div>${concept.trap}</div>
+<p style="font-size:0.88rem;color:var(--text-muted);margin-top:8px"><strong>&#128161; Memory Hook:</strong> ${concept.hook}</p>
+<div class="lesson-mini-check" data-answer-id="${answerId}" data-rationale="${escHtml(rationale)}">
+<h4>&#10024; Concept Check</h4>
+<p>Which answer shows the strongest test-taking thinking for <strong>${concept.term}</strong>?</p>
+<div class="concept-check-options">${choiceButtons}</div>
+<div class="lesson-feedback" id="${answerId}"></div>
+</div>
+</div></div></div>`;
+}
+function shuffleLessonChoices(items){
+let r=[...items];
+for(let i=r.length-1;i>0;i--){
+let j=Math.floor(Math.random()*(i+1));
+[r[i],r[j]]=[r[j],r[i]];
+}
+return r;
+}
+
+function lessonConceptCheck(btn){
+let box=btn.closest('.lesson-mini-check');
+if(!box)return;
+let fb=document.getElementById(box.dataset.answerId);
+if(!fb)return;
+let isCorrect=btn.dataset.correct==='true';
+box.querySelectorAll('.concept-check-btn').forEach(b=>{b.classList.remove('correct-choice','wrong-choice');});
+btn.classList.add(isCorrect?'correct-choice':'wrong-choice');
+fb.classList.add('show');
+fb.classList.toggle('wrong',!isCorrect);
+fb.innerHTML=(isCorrect?'<strong>&#10003; Correct.</strong> ':'<strong>Not quite.</strong> ')+box.dataset.rationale;
+}
+
+document.addEventListener('click',function(e){
+let btn=e.target.closest('.concept-check-btn');
+if(btn){e.preventDefault();e.stopPropagation();lessonConceptCheck(btn);}
+});
+
+// ============================================================
+// STATION 1
+// ============================================================
+const s1Concepts=[
+{term:'Participating Provider (PAR)',def:'A healthcare provider who has a contract with an insurance company and agrees to accept the insurer\'s allowed amount as full payment.',example:'Dr. Lee is PAR with Blue Cross. She accepts $120 for a visit even though she normally charges $150.',hook:'PAR = Partner with the Plan',trap:'The exam may ask who absorbs the difference between the charge and allowed amount — it\'s the provider (write-off), not the patient.'},
+{term:'Allowed Amount',def:'The maximum dollar amount an insurance plan will pay for a covered service. Also called "approved amount" or "eligible expense."',example:'The doctor charges $200 for an X-ray, but the insurance allowed amount is $150. The plan bases payment on $150.',hook:'Allowed = the ceiling the plan uses',trap:'The allowed amount is NOT the same as the billed amount. Questions may try to confuse these.'},
+{term:'Write-Off',def:'The difference between the provider\'s billed charge and the insurance allowed amount that a PAR provider must absorb — the patient does NOT pay this.',example:'Billed: $200, Allowed: $150. The $50 difference is written off by the provider.',hook:'Write-off = provider eats the difference',trap:'A write-off only applies to PAR providers. Non-PAR providers may bill the patient for the difference (balance billing).'},
+{term:'Copay (Copayment)',def:'A fixed dollar amount the patient pays at the time of service (e.g., $25 per office visit). It does not change based on the cost of the service.',example:'Maria\'s plan has a $30 copay. Whether the visit costs $100 or $300, she pays $30 upfront.',hook:'Copay = CO-pay, patient\'s COntribution, same every time',trap:'Copay is fixed. Coinsurance is a percentage. The exam loves testing this difference.'},
+{term:'Coinsurance',def:'The percentage of the allowed amount the patient pays after the deductible has been met. The plan pays the rest.',example:'After meeting her deductible, Tanya\'s plan is 80/20. The plan pays 80% and she pays 20%.',hook:'Co-INSURANCE = patient shares cost by percentage',trap:'Coinsurance only kicks in after the deductible. If the deductible is not met, the patient may owe the full allowed amount.'},
+{term:'Deductible',def:'The amount the patient must pay out of pocket each year before the insurance plan begins to pay its share.',example:'James has a $500 deductible. His first $500 of covered services each year comes out of his pocket.',hook:'Deductible = what you pay before THEY pay',trap:'The deductible resets each benefit year. The exam may present a scenario where the deductible has not been met yet.'},
+{term:'First/Second/Third-Party Payer',def:'First party = Patient. Second party = Provider (doctor). Third party = Insurance company — the outside payer.',example:'The patient (1st) sees the doctor (2nd) and the insurance company (3rd) pays.',hook:'1st = Patient, 2nd = Provider, 3rd = Insurer',trap:'If the question asks "who is the third-party payer," it is ALWAYS the insurance company.'},
+{term:'Assignment of Benefits (AOB)',def:'A form the patient signs that authorizes the insurance company to pay the provider directly instead of sending payment to the patient.',example:'Without AOB, the insurance check would go to the patient. With AOB, it goes straight to the clinic.',hook:'Assignment = "assign my payment to the doctor"',trap:'AOB is about directing WHERE the payment goes, not about what the patient owes.'},
+{term:'Guarantor',def:'The person legally responsible for paying the patient\'s bill. May be the patient or a parent/guardian for minors.',example:'A mother brings her child for a sick visit — the mother is the guarantor.',hook:'Guarantor = the one who GUARANTEES payment',trap:'The guarantor may not be the patient. For children, the guarantor is usually a parent.'}
+];
+const s1Questions=[
+{stem:'A provider charges $250. The allowed amount is $180. Coinsurance is 20%. Deductible is met. How much does the patient owe?',options:['$50','$36','$70','$180'],answer:1,rationale:'Patient owes 20% coinsurance of the allowed amount: $180 × 0.20 = $36. The $70 difference is written off.',hints:['Use the allowed amount, not the billed charge.','Coinsurance is a percentage of the allowed amount.','$180 × 20% = ?']},
+{stem:'Who is the third-party payer in a healthcare transaction?',options:['The patient','The provider','The insurance company','The guarantor'],answer:2,rationale:'The insurance company is always the third-party payer. Patient = 1st, Provider = 2nd.',hints:['Who is "outside" the patient-doctor relationship?','The third party pays on behalf of someone.','Not the patient or doctor.']},
+{stem:'A patient has a $500 deductible and has paid $200. A service allowed amount is $400. How much deductible remains?',options:['$200','$300','$400','$500'],answer:1,rationale:'$500 - $200 = $300 remaining. Patient pays $300 toward deductible first, then coinsurance applies to the remaining $100.',hints:['How much deductible is left?','$500 - $200 = ?','Patient pays remainder before plan shares costs.']},
+{stem:'What is the purpose of Assignment of Benefits (AOB)?',options:['It determines the copay amount','It authorizes the insurer to pay the provider directly','It assigns a diagnosis code','It transfers coverage to a family member'],answer:1,rationale:'AOB directs the insurance company to send payment to the provider instead of to the patient.',hints:['AOB is about directing payment.','Who receives the insurance check?','Without AOB, check goes to patient.']},
+{stem:'What is a write-off in medical billing?',options:['A penalty for late payment','The amount insurance refuses to pay','The difference between billed charge and allowed amount that a PAR provider absorbs','The patient\'s deductible amount'],answer:2,rationale:'A write-off is the gap between billed and allowed amounts. PAR providers contractually absorb this and cannot bill the patient for it.',hints:['Only applies to participating providers.','Gap between billed and allowed.','Provider cannot charge patient for this.']}
+];
+
+function renderStation1(){
+let c=document.getElementById('st1Content');
+let h=`<button class="btn btn-back" onclick="goTo('map')">&larr; Back to Map</button>
+<div class="section-header"><h2><span class="section-icon" style="background:linear-gradient(135deg,#3b82f6,#6366f1)">&#128179;</span> Station 1: Health Insurance Basics</h2></div>
+<div class="tabs">
+<button class="tab active" onclick="showTab(this,'s1-lesson')">&#128218; Lesson</button>
+<button class="tab" onclick="showTab(this,'s1-cards')">&#9729; Flashcards</button>
+<button class="tab" onclick="showTab(this,'s1-quiz')">&#10004; Quiz</button>
+<button class="tab" onclick="showTab(this,'s1-activity')">&#129518; Activity</button>
+<button class="tab" onclick="showTab(this,'s1-strategy')">&#127919; Strategy</button>
+</div>`;
+
+h+=`<div class="tab-content active" id="s1-lesson">
+<div class="card"><h3>Understanding Health Insurance Fundamentals</h3>
+<p>Before a medical office can bill correctly, you need to understand how money flows in healthcare. Click each concept below to expand and learn.</p>
+<div class="callout callout-purple"><div class="callout-title">&#129504; How to Think About This</div>Always ask: (1) Has the deductible been met? (2) Is this a PAR provider? (3) What is the allowed amount? These three facts determine the patient's responsibility.</div>
+</div>`;
+s1Concepts.forEach((c,i)=>{h+=buildLessonConcept(c,i,'linear-gradient(135deg,#3b82f6,#6366f1)');});
+h+=`</div>`;
+
+h+=`<div class="tab-content" id="s1-cards"><p style="color:var(--text-muted);margin-bottom:16px">&#9729; Click any cloud card to flip it and reveal the full answer.</p><div class="flashcard-grid">`;
+s1Concepts.forEach((c,i)=>{h+=buildCloudCard(c,i);});
+h+=`</div></div>`;
+
+h+=`<div class="tab-content" id="s1-quiz"><h3 style="margin-bottom:14px">&#10004; Concept Check</h3>`;
+registerQs('s1',s1Questions);s1Questions.forEach((q,i)=>{h+=buildQuestion(q,i,'s1',true);});
+h+=`</div>`;
+
+h+=`<div class="tab-content" id="s1-activity"><div class="activity-area"><h3>&#129518; EOB Claim Simulation: Figure Out Who Pays What</h3><p style="margin-bottom:14px;font-size:0.9rem">Do not just plug in numbers. Read the insurance card + EOB details, decide which numbers matter, and calculate the patient responsibility like a billing specialist.</p>
+<div class="eob-panel">
+<div class="eob-header">
+<div><span class="eob-pill">Patient: Ana Ruiz</span> <span class="eob-pill">PAR Provider</span> <span class="eob-pill">Office Visit + X-ray</span></div>
+<div><span class="eob-pill">Plan: 80/20 after deductible</span></div>
+</div>
+<div class="callout callout-blue" style="margin:0 0 12px 0"><div class="callout-title">Insurance Card Clues</div>Annual deductible: $600. Deductible already met before this visit: $450. Office visit copay: $30. Coinsurance: patient pays 20% after deductible. Provider is participating.</div>
+<table class="eob-table">
+<thead><tr><th>Service</th><th>Billed</th><th>Allowed</th><th>Plan note</th></tr></thead>
+<tbody>
+<tr><td>Established office visit</td><td>$220</td><td>$140</td><td>Copay applies</td></tr>
+<tr><td>Chest X-ray</td><td>$380</td><td>$260</td><td>Deductible + coinsurance applies</td></tr>
+</tbody>
+</table>
+<div class="callout callout-gold" style="margin:12px 0"><div class="callout-title">Your Task</div>Separate the provider write-off from the patient responsibility. The patient never pays the write-off for a PAR provider.</div>
+<div class="eob-workgrid">
+<div class="eob-workcard"><label>1. Total allowed amount ($)</label><input type="number" id="eobAllowed" placeholder=""></div>
+<div class="eob-workcard"><label>2. Provider write-off ($)</label><input type="number" id="eobWriteoff" placeholder=""></div>
+<div class="eob-workcard"><label>3. Deductible still remaining before this visit ($)</label><input type="number" id="eobDeductRemain" placeholder=""></div>
+<div class="eob-workcard"><label>4. Deductible applied to X-ray ($)</label><input type="number" id="eobDeductApplied" placeholder=""></div>
+<div class="eob-workcard"><label>5. Patient coinsurance on remaining X-ray allowed amount ($)</label><input type="number" id="eobCoins" placeholder=""></div>
+<div class="eob-workcard"><label>6. Patient total responsibility ($)</label><input type="number" id="eobPatientTotal" placeholder=""></div>
+<div class="eob-workcard"><label>7. What should the office collect or bill?</label><select id="eobAction"><option value="">Choose one</option><option value="writeoff">Bill the patient the write-off because insurance did not pay it</option><option value="patient">Collect/bill copay + deductible + coinsurance only</option><option value="billed">Collect the full billed charge</option><option value="allowed">Collect the full allowed amount from the patient</option></select></div>
+</div>
+<div class="btn-group"><button class="btn btn-primary" onclick="checkEobLab()">Check My EOB Reasoning</button><button class="btn btn-hint" onclick="document.getElementById('eobHint').classList.add('show')">Show Hint</button><button class="btn btn-reveal" onclick="revealEobLab()">Reveal Walkthrough</button></div>
+<div id="eobHint" class="eob-feedback needs-work"><strong>Hint:</strong> The office visit copay is separate. The deductible applies to the X-ray first. Only the amount left after deductible gets 20% coinsurance.</div>
+<div id="eobFeedback" class="eob-feedback"></div>
+</div></div></div>`;
+
+h+=`<div class="tab-content" id="s1-strategy"><div class="strategy-box"><h3>&#127919; How the NHA May Test Insurance Basics</h3><ul>
+<li><strong>Watch for:</strong> Scenarios where the deductible has NOT been met — this changes patient responsibility.</li>
+<li><strong>Wrong answers often:</strong> Use the billed charge instead of the allowed amount, or confuse copay with coinsurance.</li>
+<li><strong>Eliminate choices by:</strong> Checking if math uses allowed amount and whether deductible is met.</li>
+<li><strong>Common confusion:</strong> Write-off vs. balance billing — PAR providers write off; non-PAR may balance bill.</li>
+</ul></div><div style="text-align:center;margin-top:24px"><button class="btn btn-success" onclick="markComplete(1)">&#10003; Mark Station 1 Complete</button></div></div>`;
+c.innerHTML=h;
+}
+
+function calcPatientResp(){let b=+document.getElementById('calcBilled').value||0,a=+document.getElementById('calcAllowed').value||0,d=+document.getElementById('calcDeduct').value||0,dp=+document.getElementById('calcDeductPaid').value||0,cp=+document.getElementById('calcCopay').value||0,ci=+document.getElementById('calcCoins').value||0,par=document.getElementById('calcPar').value==='yes';let wo=par?Math.max(0,b-a):0,dr=Math.max(0,d-dp),ad=Math.min(dr,a),af=a-ad,pc=af*(ci/100),pp=af-pc,pt=cp+ad+pc,bb=par?0:Math.max(0,b-a);let r=document.getElementById('calcResult');r.style.display='block';r.innerHTML=`<strong>Breakdown:</strong><br>Allowed Amount: $${a.toFixed(2)}<br>Write-Off: $${wo.toFixed(2)}<br>Remaining Deductible: $${dr.toFixed(2)} → Patient pays $${ad.toFixed(2)}<br>After Deductible: $${af.toFixed(2)}<br>Patient Coinsurance (${ci}%): $${pc.toFixed(2)}<br>Plan Pays: $${pp.toFixed(2)}<br>Copay: $${cp.toFixed(2)}<br>${!par?'Balance Billing: $'+bb.toFixed(2)+'<br>':''}<strong style="font-size:1.1rem">Patient Total: $${(pt+bb).toFixed(2)}</strong>`;}
+function resetCalc(){['calcBilled','calcAllowed','calcDeduct','calcDeductPaid','calcCopay','calcCoins'].forEach(id=>{let el=document.getElementById(id);if(el)el.value='';});let r=document.getElementById('calcResult');if(r)r.style.display='none';}
+function moneyVal(id){let el=document.getElementById(id);return el?Number(el.value):NaN;}
+function closeMoney(actual,expected){return Math.abs(Number(actual)-expected)<=0.01;}
+function setEobValues(){
+const values={eobAllowed:400,eobWriteoff:200,eobDeductRemain:150,eobDeductApplied:150,eobCoins:22,eobPatientTotal:202};
+Object.keys(values).forEach(id=>{let el=document.getElementById(id);if(el)el.value=values[id];});
+let action=document.getElementById('eobAction');if(action)action.value='patient';
+}
+function eobWalkthrough(){return `<strong>Correct reasoning:</strong><ol class="eob-step-list">
+<li>Total billed = $220 + $380 = $600. Total allowed = $140 + $260 = $400.</li>
+<li>Because the provider is PAR, write-off = billed $600 − allowed $400 = $200. The patient does not pay this.</li>
+<li>Deductible remaining before the visit = $600 − $450 = $150.</li>
+<li>The office visit has a $30 copay. The X-ray allowed amount is $260. Apply the $150 remaining deductible to the X-ray first.</li>
+<li>After deductible: $260 − $150 = $110. Patient coinsurance is 20% of $110 = $22.</li>
+<li>Patient total = $30 copay + $150 deductible + $22 coinsurance = <strong>$202</strong>.</li>
+<li>Office action: collect or bill only copay + deductible + coinsurance. Do not bill the PAR write-off.</li>
+</ol>`;}
+function checkEobLab(){
+const checks=[
+['Total allowed amount',moneyVal('eobAllowed'),400],
+['Provider write-off',moneyVal('eobWriteoff'),200],
+['Deductible remaining',moneyVal('eobDeductRemain'),150],
+['Deductible applied',moneyVal('eobDeductApplied'),150],
+['Coinsurance',moneyVal('eobCoins'),22],
+['Patient total',moneyVal('eobPatientTotal'),202]
+];
+let wrong=checks.filter(x=>!closeMoney(x[1],x[2]));
+let action=document.getElementById('eobAction');
+let fb=document.getElementById('eobFeedback');
+let actionWrong=!action||action.value!=='patient';
+if(wrong.length===0&&!actionWrong){fb.className='eob-feedback show good';fb.innerHTML='<strong>&#10003; Strong billing reasoning.</strong> You separated write-off from patient responsibility and applied deductible before coinsurance.'+eobWalkthrough();}
+else{fb.className='eob-feedback show needs-work';fb.innerHTML='<strong>Not yet.</strong> Recheck: '+(wrong.map(x=>x[0]).join(', ')||'the office action')+'. Remember: allowed amount controls the math, deductible comes before coinsurance, and PAR write-off is not billed to the patient.';}
+}
+function revealEobLab(){setEobValues();let fb=document.getElementById('eobFeedback');fb.className='eob-feedback show good';fb.innerHTML=eobWalkthrough();}
+
+// ============================================================
+// STATION 2
+// ============================================================
+const s2Concepts=[
+{term:'Prior Authorization',def:'Insurance company approval needed BEFORE certain services. Without it, the insurer may refuse to pay.',example:'Office calls insurance before scheduling an MRI. Insurer reviews and issues authorization number.',hook:'Prior = Before → get permission BEFORE',trap:'Prior auth ≠ a guarantee of payment. Even with authorization, the claim can still be denied if coding is incorrect.'},
+{term:'Referral',def:'A written order from a PCP directing the patient to a specialist. Required by many HMO plans.',example:'Dr. Smith (PCP) refers a patient to a cardiologist. The referral must be on file before billing.',hook:'Referral = PCP says "go see them"',trap:'A referral comes from the PCP. Prior auth comes from the insurance company. They are NOT the same.'},
+{term:'Coordination of Benefits (COB)',def:'The process used when a patient has two or more insurance plans to determine which pays first and prevent overpayment.',example:'Patient has insurance through their job and spouse\'s job. COB determines which plan is primary.',hook:'COB = Coordinates the Order of Billing',trap:'COB prevents duplicate payment — it does not eliminate coverage from either plan.'},
+{term:'Birthday Rule',def:'When a child is covered by both parents, the parent whose birthday falls earlier in the calendar year (month/day only) has the primary plan.',example:'Mom: April 2, Dad: Feb 14 → Dad\'s plan is primary because February comes before April.',hook:'Earlier birthday in the YEAR = primary (ignore birth year)',trap:'The birthday rule uses ONLY month and day — NOT the year of birth. This is the #1 trick.'},
+{term:'Primary vs Secondary Insurance',def:'Primary pays first. Secondary may cover remaining eligible costs after primary processes.',example:'Patient\'s own employer plan is usually primary. Spouse\'s plan is secondary.',hook:'Primary = pays FIRST, Secondary = picks up the rest',trap:'Secondary does not always cover 100% of what primary did not pay.'},
+{term:'When Patient May Be Responsible',def:'Patient may pay when: no prior auth was obtained, service not covered, out-of-network provider, deductible not met, or ABN was signed.',example:'Patient gets an MRI without prior auth. Insurance denies the claim. Patient may owe the full cost.',hook:'No auth + not covered = patient pays',trap:'The exam tests scenarios where prior auth is missing — answer is usually denial.'}
+];
+const s2Questions=[
+{stem:'An HMO patient arrives at a specialist without a referral. What should the office do?',options:['See the patient and bill directly','Contact the PCP to obtain the referral','Tell patient to pay cash','Cancel permanently'],answer:1,rationale:'HMO plans require a referral from the PCP. The office should try to obtain the referral before proceeding.',hints:['HMO plans are strict about referrals.','The PCP is the gatekeeper.','Without referral, claim will likely be denied.']},
+{stem:'Prior authorization is obtained from:',options:['The patient\'s employer','The insurance company','The referring specialist','The pharmacy'],answer:1,rationale:'Prior authorization is approval from the insurance company before a service is provided.',hints:['Think "prior" = before.','Insurance company must approve.','Relates to whether the plan will cover the service.']},
+{stem:'A child is covered by both parents. Mom: March 15, Dad: January 8. Whose plan is primary?',options:['Mom\'s because she is female','Dad\'s because his birthday is earlier in the year','Whichever plan is older','The plan with lower premium'],answer:1,rationale:'Birthday rule: parent whose birthday falls earlier in the calendar year (month/day) has primary plan. January 8 < March 15.',hints:['Birthday rule uses month and day only.','Which birthday comes first?','January comes before March.']},
+{stem:'What does Coordination of Benefits prevent?',options:['Patient from choosing their doctor','Duplicate payment by multiple plans','Provider from overcharging','Patient from having two plans'],answer:1,rationale:'COB prevents duplicate (over) payment when a patient has multiple insurance plans.',hints:['COB involves multiple plans.','It coordinates, not eliminates coverage.','Goal: prevent overpayment.']},
+{stem:'An MRI is done without required prior authorization. What happens?',options:['Insurance pays normally','Insurance may deny the claim','Provider gets higher payment','Referral replaces authorization'],answer:1,rationale:'Without required prior auth, insurance may deny the claim. Patient may then be responsible for cost.',hints:['Prior auth is required BEFORE service.','Without approval, insurer may not pay.','Common real-world billing problem.']}
+];
+
+function renderStation2(){
+let c=document.getElementById('st2Content');
+let h=`<button class="btn btn-back" onclick="goTo('map')">&larr; Back to Map</button>
+<div class="section-header"><h2><span class="section-icon" style="background:linear-gradient(135deg,#8b5cf6,#a855f7)">&#128196;</span> Station 2: Prior Auth, Referrals &amp; COB</h2></div>
+<div class="tabs">
+<button class="tab active" onclick="showTab(this,'s2-lesson')">&#128218; Lesson</button>
+<button class="tab" onclick="showTab(this,'s2-cards')">&#9729; Flashcards</button>
+<button class="tab" onclick="showTab(this,'s2-quiz')">&#10004; Quiz</button>
+<button class="tab" onclick="showTab(this,'s2-activity')">&#129518; Activity</button>
+<button class="tab" onclick="showTab(this,'s2-strategy')">&#127919; Strategy</button>
+</div>`;
+
+h+=`<div class="tab-content active" id="s2-lesson"><div class="card"><h3>Authorization, Referrals &amp; Who Pays First</h3><p>These concepts control what gets approved and who pays. Click each topic to expand.</p></div>`;
+s2Concepts.forEach((c,i)=>{h+=buildLessonConcept(c,i,'linear-gradient(135deg,#8b5cf6,#a855f7)');});
+h+=`</div>`;
+
+h+=`<div class="tab-content" id="s2-cards"><p style="color:var(--text-muted);margin-bottom:16px">&#9729; Tap to flip!</p><div class="flashcard-grid">`;
+s2Concepts.forEach((c,i)=>{h+=buildCloudCard(c,i+3);});
+h+=`</div></div>`;
+
+h+=`<div class="tab-content" id="s2-quiz"><h3 style="margin-bottom:14px">&#10004; Concept Check</h3>`;
+registerQs('s2',s2Questions);s2Questions.forEach((q,i)=>{h+=buildQuestion(q,i,'s2',true);});
+h+=`</div>`;
+
+h+=`<div class="tab-content" id="s2-activity"><div class="activity-area"><h3>&#129518; Referral &amp; Prior Auth Decision Maker</h3><p style="margin-bottom:14px;font-size:0.9rem">Read each scenario and decide the correct action.</p><div id="s2Scenarios"></div></div></div>`;
+
+h+=`<div class="tab-content" id="s2-strategy"><div class="strategy-box"><h3>&#127919; How NHA May Test This</h3><ul>
+<li><strong>Referral = from PCP. Prior auth = from insurance.</strong> Both may be needed.</li>
+<li><strong>Birthday rule:</strong> Month/day only. Never use birth year.</li>
+<li><strong>COB prevents:</strong> duplicate payment.</li>
+<li><strong>Missing prior auth:</strong> claim will likely be denied.</li>
+</ul></div><div style="text-align:center;margin-top:24px"><button class="btn btn-success" onclick="markComplete(2)">&#10003; Mark Station 2 Complete</button></div></div>`;
+c.innerHTML=h;renderS2Scenarios();
+}
+
+function renderS2Scenarios(){
+const sc=[
+{text:'Patient with HMO wants to see an orthopedic specialist for knee pain.',q:'What is needed?',opts:['Nothing — go directly','Referral from PCP','Only prior auth','New insurance card'],ans:1,rat:'HMO plans require a PCP referral for specialists.'},
+{text:'Doctor wants to order an MRI. Insurance plan requires prior auth for imaging.',q:'What should happen?',opts:['Schedule immediately','Contact insurance for prior auth','Patient pays cash','Referral serves as auth'],ans:1,rat:'If prior auth is required, the office must get approval from the insurer first.'},
+{text:'Child covered by both parents. Mom: Nov 3, Dad: May 22.',q:'Whose plan is primary?',opts:['Mom\'s','Dad\'s','Lower deductible plan','Longer-active plan'],ans:1,rat:'May 22 comes before Nov 3 — Dad\'s plan is primary under the birthday rule.'}
+];
+let el=document.getElementById('s2Scenarios');
+sc.forEach((s,i)=>{el.innerHTML+=`<div class="card"><p><strong>Scenario:</strong> ${s.text}</p><p style="font-weight:700;margin:8px 0">${s.q}</p><div class="q-options">${s.opts.map((o,j)=>`<div class="q-opt" data-idx="${j}" onclick="selectOpt(this)"><span class="letter">${['A','B','C','D'][j]}</span><span>${o}</span></div>`).join('')}</div><div class="btn-group"><button class="btn btn-sm btn-primary" onclick="checkSc(this,${s.ans},'s2sc${i}')">Check</button></div><div class="q-feedback" id="s2sc${i}"></div></div>`;window['_s2r'+i]=s.rat;});
+}
+function checkSc(btn,correct,fbId){let bk=btn.closest('.card'),sel=bk.querySelector('.q-opt.selected'),fb=document.getElementById(fbId);if(!sel){fb.className='q-feedback show incorrect-fb';fb.textContent='Select an answer.';return;}let ch=parseInt(sel.dataset.idx);bk.querySelectorAll('.q-opt').forEach((o,i)=>{if(i===correct)o.classList.add('correct');if(i===ch&&i!==correct)o.classList.add('incorrect');o.style.pointerEvents='none';});fb.className=ch===correct?'q-feedback show correct-fb':'q-feedback show incorrect-fb';fb.textContent=ch===correct?'Correct!':'Not quite. Correct answer highlighted.';}
+
+// ============================================================
+// STATIONS 3-6 (same enhanced pattern)
+// ============================================================
+const s3Concepts=[
+{term:'CMS-1500',def:'The universal claim form for outpatient physician/professional services. Contains patient info, insurance, diagnosis codes (ICD-10), procedure codes (CPT), and charges.',example:'After a visit, the biller enters CPT and ICD-10 codes onto the CMS-1500 and submits electronically.',hook:'CMS-1500 = Claim for Medical Services',trap:'CMS-1500 is outpatient. UB-04 is for facilities/hospitals.'},
+{term:'Explanation of Benefits (EOB)',def:'Document the insurer sends to the PATIENT after processing a claim. Shows what was billed, covered, and what the patient may owe. It is NOT a bill.',example:'Patient gets EOB showing: Billed $200, Allowed $150, Plan paid $120, You may owe $30.',hook:'EOB goes to the PATIENT = Explains Our Benefits',trap:'EOB is NOT a bill. The bill comes from the provider.'},
+{term:'Remittance Advice (RA)',def:'Document the insurer sends to the PROVIDER detailing how claims were processed, paid, adjusted, and what the patient owes.',example:'RA shows office that Claim #4521 paid $120 with $30 adjustment and $30 patient responsibility.',hook:'RA goes to the PROVIDER = Report About payment',trap:'EOB → patient. RA → provider. Same info, different audience.'},
+{term:'Advanced Beneficiary Notice (ABN)',def:'Form given to Medicare patients BEFORE a service Medicare may not cover. Patient decides whether to proceed knowing they may pay.',example:'Before a screening test, patient signs ABN acknowledging Medicare may deny coverage.',hook:'ABN = "Are you aware Before we do this? Notice!"',trap:'ABN is Medicare-specific and must be given BEFORE the service. Without it, provider may absorb cost.'},
+{term:'Accounts Receivable (A/R)',def:'Money owed TO the practice — from insurance companies and patients for services already provided.',example:'The practice has $50,000 in A/R from unpaid claims and patient balances.',hook:'Receivable = waiting to RECEIVE money',trap:'A/R is money coming IN. A/P (payable) is money going OUT.'},
+{term:'Accounts Payable (A/P)',def:'Money the practice owes TO others — vendors, suppliers, landlords, utilities.',example:'The office owes $3,000 to a medical supply company.',hook:'Payable = money you must PAY out',trap:'Don\'t confuse with A/R. Payable = you pay others.'}
+];
+const s3Questions=[
+{stem:'Which form is used to submit outpatient physician claims to insurance?',options:['UB-04','CMS-1500','EOB','Remittance Advice'],answer:1,rationale:'CMS-1500 is for physician/outpatient claims. UB-04 is for hospitals. EOB and RA are payment documents.',hints:['Who submits this form?','CMS-1500 is for professional services.','EOB goes to patient; RA goes to provider.']},
+{stem:'An EOB is sent to:',options:['The provider only','The insurance company','The patient','The IRS'],answer:2,rationale:'EOB goes from insurer to patient explaining coverage decisions.',hints:['EOB explains benefits — but to whom?','Patient needs to know what was covered.','Comes from insurance company.']},
+{stem:'Remittance Advice is sent to:',options:['The patient','The provider','The employer','The pharmacy'],answer:1,rationale:'RA goes from insurer to provider detailing claim payment.',hints:['RA is about money paid to provider.','Comes from insurance company.','Explains payment for each claim.']},
+{stem:'When must an ABN be given?',options:['Whenever patient has Medicare','Before a service Medicare may not cover','After a claim is denied','When patient changes plans'],answer:1,rationale:'ABN is given to Medicare patients BEFORE a service that may not be covered.',hints:['ABN relates to Medicare.','Must be given BEFORE service.','Warns about potential non-coverage.']},
+{stem:'Accounts receivable represents:',options:['Money practice owes vendors','Money owed TO the practice','Monthly rent payment','Provider\'s salary'],answer:1,rationale:'A/R is money owed TO the practice from insurers and patients.',hints:['Receivable = money to be received.','Practice is waiting to collect.','Opposite of accounts payable.']}
+];
+
+function renderStation3(){
+let c=document.getElementById('st3Content');
+let h=`<button class="btn btn-back" onclick="goTo('map')">&larr; Back to Map</button>
+<div class="section-header"><h2><span class="section-icon" style="background:linear-gradient(135deg,#14b8a6,#06b6d4)">&#128203;</span> Station 3: Billing Forms &amp; Documents</h2></div>
+<div class="tabs"><button class="tab active" onclick="showTab(this,'s3-lesson')">&#128218; Lesson</button><button class="tab" onclick="showTab(this,'s3-cards')">&#9729; Flashcards</button><button class="tab" onclick="showTab(this,'s3-quiz')">&#10004; Quiz</button><button class="tab" onclick="showTab(this,'s3-activity')">&#129518; Activity</button><button class="tab" onclick="showTab(this,'s3-strategy')">&#127919; Strategy</button></div>`;
+h+=`<div class="tab-content active" id="s3-lesson"><div class="card"><h3>Key Billing Forms &amp; Payment Documents</h3><p>Click each form/document to learn what it is, who uses it, and where it goes.</p></div>`;
+s3Concepts.forEach((c,i)=>{h+=buildLessonConcept(c,i,'linear-gradient(135deg,#14b8a6,#06b6d4)');});
+h+=`</div>`;
+h+=`<div class="tab-content" id="s3-cards"><p style="color:var(--text-muted);margin-bottom:16px">&#9729; Tap to flip!</p><div class="flashcard-grid">`;
+s3Concepts.forEach((c,i)=>{h+=buildCloudCard(c,i+6);});
+h+=`</div></div>`;
+h+=`<div class="tab-content" id="s3-quiz"><h3 style="margin-bottom:14px">&#10004; Concept Check</h3>`;
+registerQs('s3',s3Questions);s3Questions.forEach((q,i)=>{h+=buildQuestion(q,i,'s3',true);});
+h+=`</div>`;
+h+=`<div class="tab-content" id="s3-activity"><div class="activity-area"><h3>&#129518; Document Sorting Challenge</h3><p style="margin-bottom:14px;font-size:0.9rem">Click an item, then click the bucket where it belongs.</p><div id="s3SortItems"></div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:14px"><div class="sort-bucket" id="bucket-cms" onclick="placeToBucket('cms')"><div class="bucket-title">CMS-1500</div></div><div class="sort-bucket" id="bucket-eob" onclick="placeToBucket('eob')"><div class="bucket-title">EOB</div></div><div class="sort-bucket" id="bucket-ra" onclick="placeToBucket('ra')"><div class="bucket-title">Remittance Advice</div></div><div class="sort-bucket" id="bucket-abn" onclick="placeToBucket('abn')"><div class="bucket-title">ABN</div></div></div><div class="btn-group"><button class="btn btn-primary" onclick="checkS3Sort()">Check Sorting</button><button class="btn btn-outline" onclick="resetS3Sort()">Reset</button></div><div id="s3SortResult" class="q-feedback"></div></div></div>`;
+h+=`<div class="tab-content" id="s3-strategy"><div class="strategy-box"><h3>&#127919; How NHA Tests Billing Forms</h3><ul><li><strong>EOB → patient. RA → provider.</strong> Both from insurer.</li><li><strong>CMS-1500:</strong> outpatient physician. <strong>UB-04:</strong> hospital.</li><li><strong>ABN:</strong> Medicare only, given BEFORE service.</li><li><strong>A/R vs A/P:</strong> Receivable = money in. Payable = money out.</li></ul></div><div style="text-align:center;margin-top:24px"><button class="btn btn-success" onclick="markComplete(3)">&#10003; Mark Station 3 Complete</button></div></div>`;
+c.innerHTML=h;renderS3Sort();
+}
+
+const s3SortData=[{text:'Patient demographics and insurance info',bucket:'cms'},{text:'ICD-10 and CPT codes for billing',bucket:'cms'},{text:'Sent to patient explaining coverage',bucket:'eob'},{text:'Shows what plan paid and patient may owe (patient copy)',bucket:'eob'},{text:'Payment details sent to provider',bucket:'ra'},{text:'Lists adjustments and write-offs per claim',bucket:'ra'},{text:'Given to Medicare patient before non-covered service',bucket:'abn'},{text:'Patient signs acknowledging financial responsibility',bucket:'abn'}];
+let selectedSortItem=null,s3Placements={};
+function renderS3Sort(){let el=document.getElementById('s3SortItems');el.innerHTML='';s3SortData.forEach((d,i)=>{el.innerHTML+=`<span class="sort-item" id="si${i}" onclick="selectSortItem(${i})">${d.text}</span>`;});s3Placements={};selectedSortItem=null;}
+function selectSortItem(i){document.querySelectorAll('.sort-item').forEach(s=>s.style.outline='');let el=document.getElementById('si'+i);if(!el.classList.contains('placed')){el.style.outline='3px solid var(--indigo)';selectedSortItem=i;}}
+function placeToBucket(bucket){if(selectedSortItem===null)return;let el=document.getElementById('si'+selectedSortItem);el.classList.add('placed');el.style.outline='';s3Placements[selectedSortItem]=bucket;let bEl=document.getElementById('bucket-'+bucket);let colors={cms:'#3b82f6',eob:'#10b981',ra:'#8b5cf6',abn:'#f97316'};bEl.innerHTML+=`<span class="placed-item" style="background:${colors[bucket]}">${s3SortData[selectedSortItem].text.substring(0,35)}…</span>`;selectedSortItem=null;}
+function checkS3Sort(){let correct=0;s3SortData.forEach((d,i)=>{if(s3Placements[i]===d.bucket)correct++;});let fb=document.getElementById('s3SortResult');if(correct===s3SortData.length){fb.className='q-feedback show correct-fb';fb.textContent='Perfect! All items sorted correctly!';}else{fb.className='q-feedback show incorrect-fb';fb.textContent=`${correct} of ${s3SortData.length} correct. Try resetting and reviewing.`;}}
+function resetS3Sort(){['cms','eob','ra','abn'].forEach(b=>{document.getElementById('bucket-'+b).innerHTML=`<div class="bucket-title">${b==='cms'?'CMS-1500':b==='eob'?'EOB':b==='ra'?'Remittance Advice':'ABN'}</div>`;});renderS3Sort();document.getElementById('s3SortResult').className='q-feedback';}
+
+// ============================================================
+// STATION 4: Coding
+// ============================================================
+const s4Concepts=[
+{term:'ICD-10-CM (Diagnosis Codes)',def:'Codes describing patient diagnoses, signs, symptoms, conditions. 3-7 alphanumeric characters starting with a letter. Answers: "What is wrong with the patient?"',example:'J45.20 = mild intermittent asthma. E11.9 = Type 2 diabetes without complications.',hook:'ICD = I Can Describe the Disease',trap:'ICD-10 is for diagnoses ONLY. Procedures = CPT or HCPCS.'},
+{term:'CPT (Procedure Codes)',def:'5-digit numeric codes for outpatient procedures and services. Answers: "What did the provider do?"',example:'99213 = established patient office visit. 71046 = chest X-ray, 2 views.',hook:'CPT = Current Procedural Terminology → what was DONE',trap:'CPT codes are always 5 digits and always numeric (no letters).'},
+{term:'HCPCS Level II (Supplies & Equipment)',def:'Codes for supplies, DME (durable medical equipment), ambulance, prosthetics, and non-physician services. Letter + 4 digits.',example:'E0100 = cane. J0129 = injection drug. A0428 = ambulance transport.',hook:'HCPCS = supplies, equipment, ambulance',trap:'HCPCS Level II starts with a LETTER. CPT is all numbers.'},
+{term:'Modifiers',def:'2-character additions to CPT/HCPCS codes providing extra info: which side, multiple procedures, reduced services.',example:'-LT = left side. -RT = right side. -25 = significant separate E/M on same day as procedure.',hook:'Modifier = MODIFIES the story of the code',trap:'Modifiers don\'t change the code — they add context.'},
+{term:'E/M Codes',def:'Evaluation & Management codes — a CPT subset for office visits based on medical decision-making complexity. Range: 99201–99499.',example:'99213 = low-moderate complexity. 99214 = moderate-high. Higher # = more complex = higher pay.',hook:'E/M = how complex was the Encounter?',trap:'Higher E/M number = more complex. The exam may test whether documentation supports the level billed.'},
+{term:'Medical Necessity & Code Linking',def:'Every CPT/HCPCS code must be linked to an ICD-10 diagnosis that justifies WHY the service was done. Mismatched codes = denial.',example:'Chest X-ray + diagnosis of cough = makes sense. Chest X-ray + ankle pain = mismatch → denial.',hook:'Diagnosis must JUSTIFY the procedure',trap:'Having both codes isn\'t enough — they must logically connect.'},
+{term:'Upcoding & Downcoding',def:'Upcoding: billing higher than documented (fraud). Downcoding: insurer reduces code level due to insufficient documentation.',example:'Billing 99215 when notes support 99213 = upcoding. Insurer paying 99213 rate for a 99214 claim = downcoding.',hook:'UP = fraud (inflating). DOWN = insurer reduces.',trap:'Upcoding is illegal. Downcoding is the insurer\'s response to weak documentation.'},
+{term:'NPI',def:'National Provider Identifier — unique 10-digit number for each healthcare provider. Required on all claims.',example:'Dr. Smith\'s NPI: 1234567890. Used on every CMS-1500.',hook:'NPI = National Provider ID = identifies the PROVIDER',trap:'NPI is for providers, not patients. It\'s 10 digits.'}
+];
+const s4Questions=[
+{stem:'ICD-10-CM codes report:',options:['Procedures during surgery','Diagnoses, signs, and symptoms','Supplies and DME','Evaluation and management levels'],answer:1,rationale:'ICD-10-CM describes diagnoses. CPT = procedures. HCPCS = supplies. E/M = visit complexity.',hints:['ICD = diseases/diagnoses.','What is WRONG with patient?','Not procedures.']},
+{stem:'A CPT code is always:',options:['3-7 alphanumeric characters','5-digit numeric','Letter + 4 numbers','Starting with J'],answer:1,rationale:'CPT = 5-digit numeric (e.g., 99213). ICD-10 = 3-7 alphanumeric. HCPCS II = letter + 4 digits.',hints:['CPT is from the AMA.','5 digits, all numbers.','Example: 99213.']},
+{stem:'What is upcoding?',options:['Using a lower code than documented','Billing higher than documentation supports for more money','Adding a modifier','Converting ICD-9 to ICD-10'],answer:1,rationale:'Upcoding = billing higher than documented = fraud with penalties.',hints:['UP = higher than deserved.','This is fraud.','Results in unearned higher payment.']},
+{stem:'Which system reports a wheelchair?',options:['ICD-10-CM','CPT','HCPCS Level II','E/M codes'],answer:2,rationale:'Wheelchair = DME = HCPCS Level II. CPT = procedures. ICD-10 = diagnoses.',hints:['Wheelchair is equipment.','HCPCS II covers DME.','Codes start with a letter.']},
+{stem:'The NPI is:',options:['A diagnosis code','A 10-digit provider ID number','Patient\'s insurance ID','A modifier for bilateral procedures'],answer:1,rationale:'NPI = unique 10-digit number for providers. Required on all claims.',hints:['NPI = National Provider Identifier.','Identifies the PROVIDER.','Required on claim forms.']}
+];
+
+function renderStation4(){
+let c=document.getElementById('st4Content');
+let h=`<button class="btn btn-back" onclick="goTo('map')">&larr; Back to Map</button>
+<div class="section-header"><h2><span class="section-icon" style="background:linear-gradient(135deg,#f97316,#f59e0b)">&#128187;</span> Station 4: Coding Manuals &amp; Application</h2></div>
+<div class="tabs"><button class="tab active" onclick="showTab(this,'s4-lesson')">&#128218; Lesson</button><button class="tab" onclick="showTab(this,'s4-cards')">&#9729; Flashcards</button><button class="tab" onclick="showTab(this,'s4-quiz')">&#10004; Quiz</button><button class="tab" onclick="showTab(this,'s4-activity')">&#129518; Activity</button><button class="tab" onclick="showTab(this,'s4-strategy')">&#127919; Strategy</button></div>`;
+h+=`<div class="tab-content active" id="s4-lesson"><div class="card"><h3>Coding Systems &amp; How They Work Together</h3><p>Medical coding translates clinical documentation into standardized codes for billing. Click each system to learn.</p></div>`;
+s4Concepts.forEach((c,i)=>{h+=buildLessonConcept(c,i,'linear-gradient(135deg,#f97316,#f59e0b)');});
+h+=`</div>`;
+h+=`<div class="tab-content" id="s4-cards"><p style="color:var(--text-muted);margin-bottom:16px">&#9729; Tap to flip!</p><div class="flashcard-grid">`;
+s4Concepts.forEach((c,i)=>{h+=buildCloudCard(c,i+2);});
+h+=`</div></div>`;
+h+=`<div class="tab-content" id="s4-quiz"><h3 style="margin-bottom:14px">&#10004; Concept Check</h3>`;
+registerQs('s4',s4Questions);s4Questions.forEach((q,i)=>{h+=buildQuestion(q,i,'s4',true);});
+h+=`</div>`;
+h+=`<div class="tab-content" id="s4-activity"><div class="activity-area"><h3>&#129518; Code Classification Challenge</h3><p style="margin-bottom:14px;font-size:0.9rem">For each clue, pick the correct coding system.</p><div id="s4CodeAct"></div></div></div>`;
+h+=`<div class="tab-content" id="s4-strategy"><div class="strategy-box"><h3>&#127919; How NHA Tests Coding</h3><ul><li>Diagnosis = ICD-10. Procedure = CPT. Supplies = HCPCS. Always.</li><li>Diagnosis must justify procedure (medical necessity).</li><li>Upcoding = fraud. Downcoding = insurer reduces payment.</li><li>E/M: higher number = more complex visit.</li><li>NPI = 10-digit provider ID.</li></ul></div><div style="text-align:center;margin-top:24px"><button class="btn btn-success" onclick="markComplete(4)">&#10003; Mark Station 4 Complete</button></div></div>`;
+c.innerHTML=h;renderS4CodeAct();
+}
+
+function renderS4CodeAct(){
+const items=[
+{clue:'Patient diagnosed with Type 2 diabetes',answer:'ICD-10-CM',why:'Diabetes is a diagnosis → ICD-10-CM'},
+{clue:'Office visit, established patient, moderate complexity',answer:'CPT (E/M)',why:'Office visit = E/M code (part of CPT)'},
+{clue:'Wheelchair provided to patient',answer:'HCPCS Level II',why:'DME = HCPCS Level II'},
+{clue:'Procedure performed on left knee only',answer:'Modifier',why:'Specifying left side = modifier -LT'},
+{clue:'Chest X-ray, 2 views',answer:'CPT',why:'X-ray is a procedure → CPT'},
+{clue:'Ambulance transport, basic life support',answer:'HCPCS Level II',why:'Ambulance = HCPCS Level II (A-codes)'}
+];
+let opts=['ICD-10-CM','CPT','CPT (E/M)','HCPCS Level II','Modifier'];
+let el=document.getElementById('s4CodeAct');
+items.forEach((item,i)=>{el.innerHTML+=`<div class="card" style="padding:18px"><p><strong>Clue:</strong> ${item.clue}</p><div class="q-options" style="margin:8px 0">${opts.map((o,j)=>`<div class="q-opt" data-idx="${j}" onclick="selectOpt(this)"><span class="letter">${['A','B','C','D','E'][j]}</span><span>${o}</span></div>`).join('')}</div><button class="btn btn-sm btn-primary" onclick="chkCA(this,${i})">Check</button><div class="q-feedback" id="s4ca${i}"></div></div>`;});
+window._s4ca=items;
+}
+function chkCA(btn,idx){let it=window._s4ca[idx],bk=btn.closest('.card'),sel=bk.querySelector('.q-opt.selected'),fb=document.getElementById('s4ca'+idx);if(!sel){fb.className='q-feedback show incorrect-fb';fb.textContent='Select an answer.';return;}let ct=sel.querySelector('span:last-child').textContent;if(ct===it.answer){fb.className='q-feedback show correct-fb';fb.innerHTML='<strong>&#10003;</strong> '+it.why;sel.classList.add('correct');}else{fb.className='q-feedback show incorrect-fb';fb.innerHTML='Answer: <strong>'+it.answer+'</strong>. '+it.why;sel.classList.add('incorrect');}bk.querySelectorAll('.q-opt').forEach(o=>o.style.pointerEvents='none');}
+
+// ============================================================
+// STATION 5: Insurance Plans
+// ============================================================
+const s5Concepts=[
+{term:'Medicare',def:'Federal health insurance for people 65+ and certain younger people with disabilities. Four parts: A (hospital), B (outpatient), C (private plans), D (drugs).',example:'A 72-year-old retired teacher uses Medicare Part A for hip replacement surgery and Part B for follow-up visits.',hook:'A=Admitted, B=Bills from doctor, C=Choice plan, D=Drugs',trap:'Medicare is NOT income-based. Medicaid is income-based. They are different programs.'},
+{term:'Medicaid',def:'Joint federal-state program for low-income individuals and families. Eligibility varies by state.',example:'A single parent earning below the poverty level qualifies for Medicaid.',hook:'MedicAID = AID for those in need',trap:'A person can have BOTH Medicare and Medicaid (called "dual eligible").'},
+{term:'TRICARE & CHAMPVA',def:'TRICARE: healthcare for active-duty/retired military and families. CHAMPVA: for families of permanently disabled or deceased veterans.',example:'An active-duty soldier uses TRICARE. A veteran\'s widow uses CHAMPVA.',hook:'TRICARE = military. CHAMPVA = veterans\' families.',trap:'TRICARE ≠ CHAMPVA. TRICARE is for service members. CHAMPVA is for survivors/dependents of disabled veterans.'},
+{term:'CHIP & Workers\' Comp',def:'CHIP: covers low-income children who don\'t qualify for Medicaid. Workers\' Comp: covers workplace injuries — employer pays, patient is not billed.',example:'Child with family income too high for Medicaid uses CHIP. Factory worker breaks arm on job = workers\' comp.',hook:'CHIP = Children\'s plan. Workers\' Comp = workplace injury.',trap:'Workers\' comp: the PATIENT is never billed. The employer\'s insurance covers everything.'},
+{term:'HMO',def:'Health Maintenance Organization — requires PCP, requires referrals for specialists, in-network only, lower premiums.',example:'Patient must get referral from Dr. Jones (PCP) before seeing a cardiologist.',hook:'HMO = Have to get My OK (from PCP)',trap:'HMO is more restrictive but cheaper. PPO is more flexible but costs more.'},
+{term:'PPO',def:'Preferred Provider Organization — no PCP required, no referrals, can see out-of-network (at higher cost), higher premiums.',example:'Patient sees a dermatologist directly without referral.',hook:'PPO = Pick your Provider Option',trap:'PPO patients CAN go out-of-network but will pay more. They\'re not limited to in-network.'},
+{term:'Capitation & Pay-for-Performance',def:'Capitation: fixed $ per patient per month regardless of services. Pay-for-performance: bonuses for quality outcomes.',example:'Doctor gets $50/month per HMO patient whether they visit or not (capitation).',hook:'Capitation = per CAPITa = per head. P4P = quality bonuses.',trap:'Capitation shifts financial risk to the provider — if patients need lots of care, the provider still gets the same payment.'}
+];
+const s5Questions=[
+{stem:'Medicare Part A covers:',options:['Outpatient visits','Inpatient hospital stays','Prescription drugs','Dental care'],answer:1,rationale:'Part A = hospital/inpatient. Part B = outpatient. Part D = drugs.',hints:['A = Admitted to hospital.','Think inpatient.','Not drugs or outpatient.']},
+{stem:'Which plan requires a referral for specialists?',options:['PPO','Fee-for-service','HMO','TRICARE'],answer:2,rationale:'HMO requires PCP as gatekeeper with referrals for specialists.',hints:['Which plan has a "gatekeeper"?','PCP controls access.','PPO = more freedom.']},
+{stem:'TRICARE covers:',options:['All government employees','Active-duty military and families','Low-income children only','People over 65'],answer:1,rationale:'TRICARE is for active-duty/retired military and dependents.',hints:['Think military.','Not civilians or elderly.','Department of Defense program.']},
+{stem:'In capitation, the provider receives:',options:['Percentage of billed charge','Fixed amount per patient per month','Payment only when patient is seen','Bonus for each referral'],answer:1,rationale:'Capitation = fixed per-member-per-month payment regardless of services used.',hints:['Capitation = per capita = per person.','Fixed and regular.','Doesn\'t depend on visit count.']},
+{stem:'CHIP provides coverage for:',options:['Disabled adults','Retired federal employees','Low-income children who don\'t qualify for Medicaid','Military families'],answer:2,rationale:'CHIP fills the gap for children whose families earn too much for Medicaid but can\'t afford private insurance.',hints:['Specifically for children.','CHIP = Children\'s Health Insurance Program.','Gap between Medicaid and private.']}
+];
+
+function renderStation5(){
+let c=document.getElementById('st5Content');
+let h=`<button class="btn btn-back" onclick="goTo('map')">&larr; Back to Map</button>
+<div class="section-header"><h2><span class="section-icon" style="background:linear-gradient(135deg,#10b981,#34d399)">&#127963;</span> Station 5: Insurance Plans &amp; Government Programs</h2></div>
+<div class="tabs"><button class="tab active" onclick="showTab(this,'s5-lesson')">&#128218; Lesson</button><button class="tab" onclick="showTab(this,'s5-cards')">&#9729; Flashcards</button><button class="tab" onclick="showTab(this,'s5-quiz')">&#10004; Quiz</button><button class="tab" onclick="showTab(this,'s5-activity')">&#129518; Activity</button><button class="tab" onclick="showTab(this,'s5-strategy')">&#127919; Strategy</button></div>`;
+h+=`<div class="tab-content active" id="s5-lesson"><div class="card"><h3>Insurance Types &amp; Government Programs</h3><p>Different patients have different types of coverage. Click each to learn who qualifies and how it works.</p></div>`;
+s5Concepts.forEach((c,i)=>{h+=buildLessonConcept(c,i,'linear-gradient(135deg,#10b981,#34d399)');});
+h+=`</div>`;
+h+=`<div class="tab-content" id="s5-cards"><p style="color:var(--text-muted);margin-bottom:16px">&#9729; Tap to flip!</p><div class="flashcard-grid">`;
+s5Concepts.forEach((c,i)=>{h+=buildCloudCard(c,i+5);});
+h+=`</div></div>`;
+h+=`<div class="tab-content" id="s5-quiz"><h3 style="margin-bottom:14px">&#10004; Concept Check</h3>`;
+registerQs('s5',s5Questions);s5Questions.forEach((q,i)=>{h+=buildQuestion(q,i,'s5',true);});
+h+=`</div>`;
+h+=`<div class="tab-content" id="s5-activity"><div class="activity-area"><h3>&#129518; Match Patient to Plan</h3><p style="margin-bottom:14px;font-size:0.9rem">Choose the most appropriate plan for each patient.</p><div id="s5PlanAct"></div></div></div>`;
+h+=`<div class="tab-content" id="s5-strategy"><div class="strategy-box"><h3>&#127919; How NHA Tests Insurance Plans</h3><ul><li>Medicare Parts: A=hospital, B=outpatient, C=private, D=drugs.</li><li>Medicare (age/disability) ≠ Medicaid (income).</li><li>HMO = PCP + referrals. PPO = more freedom.</li><li>Workers\' comp: patient is NOT billed.</li><li>TRICARE=military. CHAMPVA=vet families. CHIP=children.</li></ul></div><div style="text-align:center;margin-top:24px"><button class="btn btn-success" onclick="markComplete(5)">&#10003; Mark Station 5 Complete</button></div></div>`;
+c.innerHTML=h;renderS5PlanAct();
+}
+function renderS5PlanAct(){
+const items=[{patient:'72-year-old retired teacher needs knee surgery.',answer:'Medicare Part A',why:'Age 65+ inpatient = Medicare Part A.'},{patient:'Low-income single mother needs prenatal care.',answer:'Medicaid',why:'Low income = Medicaid.'},{patient:'Active-duty soldier needs dental checkup.',answer:'TRICARE',why:'Military = TRICARE.'},{patient:'10-year-old whose family earns too much for Medicaid.',answer:'CHIP',why:'Child above Medicaid limit = CHIP.'},{patient:'Warehouse worker breaks wrist lifting boxes at work.',answer:'Workers\' Comp',why:'Job injury = Workers\' Comp.'},{patient:'Patient wants to see specialist without referral.',answer:'PPO',why:'Direct specialist access = PPO.'}];
+let opts=['Medicare Part A','Medicare Part B','Medicaid','TRICARE','CHIP','Workers\' Comp','HMO','PPO'];
+let el=document.getElementById('s5PlanAct');
+items.forEach((item,i)=>{el.innerHTML+=`<div class="card" style="padding:18px"><p><strong>Patient:</strong> ${item.patient}</p><div class="q-options" style="margin:8px 0">${opts.map((o,j)=>`<div class="q-opt" data-idx="${j}" onclick="selectOpt(this)"><span class="letter">${String.fromCharCode(65+j)}</span><span>${o}</span></div>`).join('')}</div><button class="btn btn-sm btn-primary" onclick="chkPA(this,${i})">Check</button><div class="q-feedback" id="s5pa${i}"></div></div>`;});
+window._s5pa=items;window._s5opts=opts;
+}
+function chkPA(btn,idx){let it=window._s5pa[idx],bk=btn.closest('.card'),sel=bk.querySelector('.q-opt.selected'),fb=document.getElementById('s5pa'+idx);if(!sel){fb.className='q-feedback show incorrect-fb';fb.textContent='Select an answer.';return;}let ct=sel.querySelector('span:last-child').textContent;if(ct===it.answer){fb.className='q-feedback show correct-fb';fb.innerHTML='<strong>&#10003;</strong> '+it.why;sel.classList.add('correct');}else{fb.className='q-feedback show incorrect-fb';fb.innerHTML='Answer: <strong>'+it.answer+'</strong>. '+it.why;sel.classList.add('incorrect');}bk.querySelectorAll('.q-opt').forEach(o=>o.style.pointerEvents='none');}
+
+// ============================================================
+// STATION 6: Body System + Claim Logic
+// ============================================================
+const s6Systems=[
+{system:'Respiratory',conditions:'Asthma, COPD, bronchitis',icdClue:'J-codes (J45=asthma, J44=COPD, J20=bronchitis)',cptClue:'Spirometry, nebulizer, chest X-ray',necessity:'Breathing test for asthma = yes. Breathing test for ankle sprain = no.'},
+{system:'Cardiovascular',conditions:'Hypertension, chest pain',icdClue:'I-codes (I10=hypertension), R-codes (R07=chest pain)',cptClue:'ECG, stress test, echocardiogram',necessity:'ECG for chest pain = yes. ECG for sore throat = no.'},
+{system:'Musculoskeletal',conditions:'Fracture, sprain, back pain',icdClue:'S-codes (injuries), M-codes (musculoskeletal)',cptClue:'X-ray, casting, physical therapy',necessity:'X-ray for fracture = yes. X-ray for headache = no.'},
+{system:'Endocrine',conditions:'Diabetes (Type 1 & 2)',icdClue:'E-codes (E11=Type 2 diabetes)',cptClue:'Blood glucose test, A1C, diabetic foot exam',necessity:'A1C for diabetes = yes. A1C for skin rash = no.'},
+{system:'Digestive',conditions:'Abdominal pain, GERD',icdClue:'K-codes (K21=GERD), R-codes (R10=abdominal pain)',cptClue:'Abdominal ultrasound, endoscopy',necessity:'Endoscopy for GERD = yes. Endoscopy for knee pain = no.'},
+{system:'Integumentary (Skin)',conditions:'Wound, rash, infection',icdClue:'L-codes (L02=abscess, L30=dermatitis)',cptClue:'Wound care, I&D, skin biopsy',necessity:'Wound care for laceration = yes. Wound care for ear infection = no.'}
+];
+const s6Concepts = s6Systems.map(s=>({
+term:s.system+' System',
+def:`Common conditions: ${s.conditions}. ICD-10 clue: ${s.icdClue}`,
+example:`Possible procedures: ${s.cptClue}`,
+hook:s.necessity,
+trap:'If diagnosis doesn\'t match procedure body system, claim will be denied for lack of medical necessity.'
+}));
+const s6Questions=[
+{stem:'A patient with shortness of breath has spirometry ordered. Why must diagnosis and procedure match?',options:['To ensure patient pays less','To establish medical necessity for insurance','To speed up check-in','To avoid HCPCS codes'],answer:1,rationale:'Medical necessity = diagnosis justifies procedure. Without this link, insurance denies the claim.',hints:['Why does insurer want codes to "make sense"?','What does medical necessity mean?','Mismatched codes = ?']},
+{stem:'Clinical note: "Crushing chest pain radiating to left arm. ECG and troponin ordered." Body system?',options:['Respiratory','Musculoskeletal','Cardiovascular','Endocrine'],answer:2,rationale:'Chest pain + left arm + ECG + troponin = cardiovascular (possible heart attack).',hints:['Chest pain + left arm + ECG = ?','Troponin is a cardiac marker.','Classic cardiac presentation.']},
+{stem:'Knee X-ray submitted with migraine headache diagnosis. What happens?',options:['Paid in full','Denied for lack of medical necessity','Automatically upgraded','Patient switched to Medicare'],answer:1,rationale:'Knee X-ray + migraine = mismatch. No medical necessity = denial.',hints:['Does migraine justify knee X-ray?','Codes must logically connect.','Mismatch = denial.']},
+{stem:'Type 2 diabetes patient gets blood glucose check. Correct coding connection?',options:['ICD-10 for diabetes + CPT for glucose monitoring','CPT for diabetes + ICD-10 for blood draw','HCPCS for diabetes + CPT for diagnosis','ICD-10 for glucose + HCPCS for diabetes'],answer:0,rationale:'Diagnosis (diabetes) = ICD-10. Service (glucose check) = CPT. ICD-10 = diagnosis; CPT = procedure.',hints:['Which system codes the disease?','Which codes the test?','ICD-10 = diagnosis; CPT = procedure.']},
+{stem:'Provider documents "red swollen rash" without specific diagnosis. Billing risk?',options:['Paid at higher rate','May be denied/downcoded — insufficient documentation','Patient gets refund','CPT converts to HCPCS'],answer:1,rationale:'Vague documentation may not meet medical necessity requirements. Insurer may deny or downcode.',hints:['What happens with unclear documentation?','Insurers need specific diagnosis info.','Vague = potential denial.']}
+];
+
+function renderStation6(){
+let c=document.getElementById('st6Content');
+let h=`<button class="btn btn-back" onclick="goTo('map')">&larr; Back to Map</button>
+<div class="section-header"><h2><span class="section-icon" style="background:linear-gradient(135deg,#ec4899,#f43f5e)">&#129658;</span> Station 6: Body System &amp; Claim Logic</h2></div>
+<div class="tabs"><button class="tab active" onclick="showTab(this,'s6-lesson')">&#128218; Lesson</button><button class="tab" onclick="showTab(this,'s6-cards')">&#9729; Flashcards</button><button class="tab" onclick="showTab(this,'s6-quiz')">&#10004; Quiz</button><button class="tab" onclick="showTab(this,'s6-activity')">&#129518; Activity</button><button class="tab" onclick="showTab(this,'s6-strategy')">&#127919; Strategy</button></div>`;
+h+=`<div class="tab-content active" id="s6-lesson"><div class="card"><h3>Connecting Body Systems to Billing</h3><p>Every claim links a body system problem (diagnosis) to a service (procedure). If they don't match, the claim gets denied. Click each system to explore.</p></div>`;
+s6Concepts.forEach((c,i)=>{h+=buildLessonConcept(c,i,'linear-gradient(135deg,#ec4899,#f43f5e)');});
+h+=`</div>`;
+h+=`<div class="tab-content" id="s6-cards"><p style="color:var(--text-muted);margin-bottom:16px">&#9729; Tap to flip!</p><div class="flashcard-grid">`;
+s6Concepts.forEach((c,i)=>{h+=buildCloudCard(c,i+1);});
+h+=`</div></div>`;
+h+=`<div class="tab-content" id="s6-quiz"><h3 style="margin-bottom:14px">&#10004; Concept Check</h3>`;
+registerQs('s6',s6Questions);s6Questions.forEach((q,i)=>{h+=buildQuestion(q,i,'s6',true);});
+h+=`</div>`;
+h+=`<div class="tab-content" id="s6-activity"><div class="activity-area"><h3>&#129518; Clinical Note Analysis</h3><p style="margin-bottom:14px;font-size:0.9rem">Read each note and answer the questions.</p><div id="s6ClinAct"></div></div></div>`;
+h+=`<div class="tab-content" id="s6-strategy"><div class="strategy-box"><h3>&#127919; How NHA Tests Body System + Claims</h3><ul><li>Mismatched diagnosis-procedure = denial.</li><li>Vague documentation = denial or downcoding.</li><li>Know which conditions belong to which body system.</li><li>Key question: Does the diagnosis justify the procedure?</li></ul></div><div style="text-align:center;margin-top:24px"><button class="btn btn-success" onclick="markComplete(6)">&#10003; Mark Station 6 Complete</button></div></div>`;
+c.innerHTML=h;renderS6ClinAct();
+}
+function renderS6ClinAct(){
+const notes=[
+{note:'55-year-old male. Persistent cough and wheezing for 3 weeks. Spirometry ordered, inhaler prescribed.',qs:[
+{q:'Body system?',opts:['Respiratory','Cardiovascular','Endocrine','Digestive'],ans:0},
+{q:'Medical necessity clear?',opts:['Yes — cough/wheezing justify spirometry','No — mismatch','Unsure','Only with Medicare'],ans:0},
+{q:'Claim outcome?',opts:['Denied','Likely paid — diagnosis supports procedure','Rejected','Sent to secondary first'],ans:1}
+]},
+{note:'68-year-old female. Knee pain after a fall. Provider orders a chest X-ray.',qs:[
+{q:'Medical necessity problem?',opts:['No — always appropriate','Yes — knee pain ≠ chest X-ray','Only if under 65','Only with HMO'],ans:1},
+{q:'Claim outcome?',opts:['Paid in full','Denied for lack of medical necessity','Auto-approved','Upgraded'],ans:1}
+]}
+];
+let el=document.getElementById('s6ClinAct');
+notes.forEach((n,ni)=>{let inner=`<div class="card"><div class="callout callout-blue"><div class="callout-title">&#128203; Clinical Note</div>${n.note}</div>`;n.qs.forEach((q,qi)=>{let id=`s6cn${ni}_${qi}`;inner+=`<p style="font-weight:700;margin:10px 0 6px">${q.q}</p><div class="q-options">${q.opts.map((o,j)=>`<div class="q-opt" data-idx="${j}" onclick="selectOpt(this)"><span class="letter">${['A','B','C','D'][j]}</span><span>${o}</span></div>`).join('')}</div><button class="btn btn-sm btn-primary" onclick="chkCN(this,${q.ans},'${id}')" style="margin:6px 0">Check</button><div class="q-feedback" id="${id}"></div>`;});inner+=`</div>`;el.innerHTML+=inner;});
+}
+function chkCN(btn,ans,fbId){let container=btn.closest('.card');let allOpts=[];let prev=btn.previousElementSibling;while(prev&&!prev.classList.contains('q-options')){prev=prev.previousElementSibling;}if(!prev)return;let opts=prev.querySelectorAll('.q-opt');let sel=Array.from(opts).find(o=>o.classList.contains('selected'));let fb=document.getElementById(fbId);if(!sel){fb.className='q-feedback show incorrect-fb';fb.textContent='Select an answer.';return;}let chosen=parseInt(sel.dataset.idx);opts.forEach((o,i)=>{if(i===ans)o.classList.add('correct');if(i===chosen&&i!==ans)o.classList.add('incorrect');o.style.pointerEvents='none';});fb.className=chosen===ans?'q-feedback show correct-fb':'q-feedback show incorrect-fb';fb.textContent=chosen===ans?'Correct!':'Not quite. Correct answer highlighted.';}
+
+// ============================================================
+// 60-QUESTION BANK
+// ============================================================
+const allQuestions=[
+{stem:'What must a PAR provider absorb when their charge exceeds the allowed amount?',options:['Copay','Deductible','Write-off','Coinsurance'],answer:2,rationale:'The write-off is the gap between billed and allowed that PAR providers absorb.',cat:'Insurance Basics'},
+{stem:'A patient pays $40 at every visit regardless of cost. This is:',options:['Deductible','Coinsurance','Copay','Premium'],answer:2,rationale:'Copay = fixed amount per visit. Deductible = annual. Coinsurance = percentage.',cat:'Insurance Basics'},
+{stem:'The person legally responsible for a patient\'s bill is the:',options:['Beneficiary','Subscriber','Guarantor','Dependent'],answer:2,rationale:'Guarantor = legally responsible for the bill.',cat:'Insurance Basics'},
+{stem:'The insurance company is the:',options:['First-party payer','Second-party payer','Third-party payer','Guarantor'],answer:2,rationale:'1st=patient, 2nd=provider, 3rd=insurer.',cat:'Insurance Basics'},
+{stem:'80/20 plan, $1000 deductible met, $500 allowed amount. Patient coinsurance?',options:['$100','$400','$500','$80'],answer:0,rationale:'20% of $500 = $100.',cat:'Insurance Basics'},
+{stem:'"Allowed amount" means:',options:['Max patient pays per year','Max insurance considers for a covered service','Total provider charges','Copay plus deductible'],answer:1,rationale:'Allowed amount = maximum the plan considers for payment.',cat:'Insurance Basics'},
+{stem:'AOB directs insurance to:',options:['Increase coverage','Pay provider directly','Assign new PCP','Transfer policy'],answer:1,rationale:'AOB = pay the provider instead of the patient.',cat:'Insurance Basics'},
+{stem:'Deductible is $750, paid $400 so far. Remaining?',options:['$750','$400','$350','$1150'],answer:2,rationale:'$750-$400=$350.',cat:'Insurance Basics'},
+{stem:'Coinsurance is:',options:['Fixed $ per visit','Patient % share of allowed amount after deductible','Provider monthly fee','Deductible replacement'],answer:1,rationale:'Coinsurance = percentage after deductible is met.',cat:'Insurance Basics'},
+{stem:'A non-PAR provider may:',options:['Submit claims electronically','Accept allowed amount in full','Balance bill the patient','Waive copays'],answer:2,rationale:'Non-PAR providers can balance bill for the difference.',cat:'Insurance Basics'},
+{stem:'A referral is issued by:',options:['Insurance company','Specialist','PCP','Hospital billing'],answer:2,rationale:'PCP issues referrals to specialists.',cat:'Prior Auth/Referral/COB'},
+{stem:'Prior auth is obtained from:',options:['Patient employer','Insurance company','Specialist','Pharmacy'],answer:1,rationale:'Prior auth = approval from insurance company.',cat:'Prior Auth/Referral/COB'},
+{stem:'Birthday rule determines:',options:['Which parent plan is primary','Medicare eligibility','Deductible amount','Coverage start date'],answer:0,rationale:'Birthday rule = which parent\'s plan is primary for child.',cat:'Prior Auth/Referral/COB'},
+{stem:'Birthday rule uses only:',options:['Month and day','Year and month','Year only','Parent age'],answer:0,rationale:'Only month/day matter, not birth year.',cat:'Prior Auth/Referral/COB'},
+{stem:'If patient has Medicare and employer insurance, COB determines:',options:['Medicare always first','Which plan is primary','Patient drops one','Neither pays'],answer:1,rationale:'COB determines which pays first based on circumstances.',cat:'Prior Auth/Referral/COB'},
+{stem:'Procedure done without required prior auth — claim will be:',options:['Paid higher','Denied','Forwarded to Medicare','Covered by workers comp'],answer:1,rationale:'Missing required prior auth = denial.',cat:'Prior Auth/Referral/COB'},
+{stem:'COB\'s main purpose:',options:['Find cheapest plan','Prevent duplicate payment','Coordinate appointments','Assign diagnosis codes'],answer:1,rationale:'COB prevents overpayment from multiple plans.',cat:'Prior Auth/Referral/COB'},
+{stem:'HMO patient wants to see dermatologist. First step?',options:['Call insurance directly','Get referral from PCP','Go directly','Switch to PPO'],answer:1,rationale:'HMO = PCP referral required for specialists.',cat:'Prior Auth/Referral/COB'},
+{stem:'Which most likely requires prior auth?',options:['Annual physical','MRI of lumbar spine','Flu shot','Blood pressure check'],answer:1,rationale:'High-cost imaging often requires prior auth.',cat:'Prior Auth/Referral/COB'},
+{stem:'Secondary plan for child covered by both parents:',options:['Pays nothing','Pays before primary','May pay remaining after primary','Becomes primary next year'],answer:2,rationale:'Secondary may cover eligible remaining costs.',cat:'Prior Auth/Referral/COB'},
+{stem:'CMS-1500 bills for:',options:['Hospital inpatient','Outpatient physician services','Prescriptions','Lab equipment'],answer:1,rationale:'CMS-1500 = outpatient physician claims.',cat:'Billing Forms'},
+{stem:'EOB goes to:',options:['Provider','Insurance company','Patient','IRS'],answer:2,rationale:'EOB = from insurer to patient.',cat:'Billing Forms'},
+{stem:'RA goes to:',options:['Patient','Provider','Employer','Pharmacy'],answer:1,rationale:'RA = from insurer to provider.',cat:'Billing Forms'},
+{stem:'ABN must be given:',options:['After denial','Before a Medicare service that may not be covered','When changing PCP','At open enrollment'],answer:1,rationale:'ABN = before potentially non-covered Medicare service.',cat:'Billing Forms'},
+{stem:'Accounts receivable represents:',options:['Money owed to suppliers','Payroll','Money owed TO the practice','Monthly rent'],answer:2,rationale:'A/R = money coming to the practice.',cat:'Billing Forms'},
+{stem:'EOB vs bill:',options:['Same document','EOB explains coverage; bill is amount due from provider','EOB from provider; bill from insurer','EOB replaces bills'],answer:1,rationale:'EOB explains; bill is the actual charge from the provider.',cat:'Billing Forms'},
+{stem:'Direct deposit from insurer to provider:',options:['Check','Cash on delivery','EFT','Money order'],answer:2,rationale:'EFT = Electronic Funds Transfer = direct deposit.',cat:'Billing Forms'},
+{stem:'Accounts payable represents:',options:['Money owed TO practice','Money practice owes TO vendors','Patient copays','Premium payments'],answer:1,rationale:'A/P = money the practice owes others.',cat:'Billing Forms'},
+{stem:'Which form has diagnosis codes, procedure codes, and provider info?',options:['EOB','ABN','CMS-1500','Intake form'],answer:2,rationale:'CMS-1500 contains all claim submission info.',cat:'Billing Forms'},
+{stem:'Medicare patient doesn\'t sign ABN before denied service. Who pays?',options:['Patient must pay','Medicare pays exception','Provider may absorb cost','Secondary covers it'],answer:2,rationale:'Without ABN, provider may not be able to bill patient.',cat:'Billing Forms'},
+{stem:'ICD-10-CM codes can be up to ___ characters.',options:['3','5','7','10'],answer:2,rationale:'ICD-10-CM = 3 to 7 characters.',cat:'Coding'},
+{stem:'CPT codes are:',options:['3-7 alphanumeric','5-digit numeric','Letter + 4 numbers','2-digit modifiers'],answer:1,rationale:'CPT = always 5-digit numeric.',cat:'Coding'},
+{stem:'HCPCS Level II covers:',options:['Inpatient diagnoses','Office visit levels','Supplies, DME, ambulance','Surgery only'],answer:2,rationale:'HCPCS II = DME, supplies, ambulance, non-physician services.',cat:'Coding'},
+{stem:'A modifier is:',options:['Separate form','2-character code adding info about a procedure','Insurance plan type','Primary diagnosis code'],answer:1,rationale:'Modifiers add context without changing the code.',cat:'Coding'},
+{stem:'E/M codes describe:',options:['ER equipment','Office visit complexity level','DME','Prescription drugs'],answer:1,rationale:'E/M = evaluation and management visit complexity.',cat:'Coding'},
+{stem:'Linking CPT to ICD-10 demonstrates:',options:['Provider NPI','Medical necessity','Patient DOB','Allowed amount'],answer:1,rationale:'Linking procedure to diagnosis = medical necessity.',cat:'Coding'},
+{stem:'Provider bills 99215 but documentation supports 99213. This is:',options:['Downcoding','Upcoding','Correct coding','Modifier issue'],answer:1,rationale:'Billing higher than documented = upcoding = fraud.',cat:'Coding'},
+{stem:'Insurer reduces code level due to insufficient documentation:',options:['Upcoding','Bundling','Downcoding','Capitation'],answer:2,rationale:'Downcoding = insurer reduces level and payment.',cat:'Coding'},
+{stem:'NPI is:',options:['5-digit procedure code','10-digit provider ID','Patient insurance ID','Bilateral modifier'],answer:1,rationale:'NPI = National Provider Identifier, 10 digits.',cat:'Coding'},
+{stem:'Home nebulizer machine code comes from:',options:['ICD-10-CM','CPT E/M','HCPCS Level II','A modifier'],answer:2,rationale:'Nebulizer = DME = HCPCS Level II.',cat:'Coding'},
+{stem:'Medicare Part B covers:',options:['Inpatient stays','Outpatient services and doctor visits','Prescription drugs','Long-term care'],answer:1,rationale:'Part B = outpatient/doctor visits.',cat:'Insurance Plans'},
+{stem:'Medicaid is funded by:',options:['Federal only','State only','Federal and state','Private insurers'],answer:2,rationale:'Medicaid = joint federal-state program.',cat:'Insurance Plans'},
+{stem:'TRICARE covers:',options:['All federal employees','Active-duty/retired military and families','Only disabled veterans','Low-income seniors'],answer:1,rationale:'TRICARE = military healthcare.',cat:'Insurance Plans'},
+{stem:'Most provider freedom without referrals:',options:['HMO','PPO','Capitation','Managed Medicaid'],answer:1,rationale:'PPO = no referrals, out-of-network allowed.',cat:'Insurance Plans'},
+{stem:'Capitation pays provider:',options:['Per service individually','Fixed per patient per month','Only when hospitalized','By diagnosis complexity'],answer:1,rationale:'Capitation = fixed PMPM payment.',cat:'Insurance Plans'},
+{stem:'CHIP covers:',options:['Disabled adults','Retired feds','Low-income children not qualifying for Medicaid','Military families'],answer:2,rationale:'CHIP = children above Medicaid limits.',cat:'Insurance Plans'},
+{stem:'Workers\' comp covers:',options:['All employee healthcare','Only on-the-job injuries/illnesses','Routine physicals','Mental health only'],answer:1,rationale:'Workers\' comp = workplace injuries only.',cat:'Insurance Plans'},
+{stem:'HMO requires patient to:',options:['Pay highest premium','Choose PCP and get referrals','See only out-of-network','Skip deductible'],answer:1,rationale:'HMO = PCP gatekeeper + referrals.',cat:'Insurance Plans'},
+{stem:'Pay-for-performance:',options:['Pays per enrolled patient','Rewards quality outcomes','Reduces pay for satisfaction','Same as fee-for-service'],answer:1,rationale:'P4P = bonuses for quality metrics.',cat:'Insurance Plans'},
+{stem:'CHAMPVA covers:',options:['Active-duty members','Families of disabled/deceased veterans','All retirees','Federal employees'],answer:1,rationale:'CHAMPVA = families of permanently disabled or deceased veterans.',cat:'Insurance Plans'},
+{stem:'Patient wheezing with spirometry ordered. Body system?',options:['Cardiovascular','Endocrine','Respiratory','Musculoskeletal'],answer:2,rationale:'Wheezing + spirometry = respiratory.',cat:'Body System/Claim Logic'},
+{stem:'Knee X-ray with hypertension diagnosis. Outcome?',options:['Paid in full','Denied — mismatch','Auto-upgraded','Sent to secondary'],answer:1,rationale:'Hypertension doesn\'t justify knee X-ray = denial.',cat:'Body System/Claim Logic'},
+{stem:'Type 2 diabetes + A1C test. Medical necessity?',options:['Yes — directly related','No — unrelated','Only with hypertension','Only with specialist'],answer:0,rationale:'A1C monitors diabetes = clear medical necessity.',cat:'Body System/Claim Logic'},
+{stem:'Abdominal pain + abdominal ultrasound. Supported?',options:['No — invalid diagnosis','Yes — diagnosis supports procedure','Only if over 65','Only with prior auth'],answer:1,rationale:'Abdominal pain justifies abdominal ultrasound.',cat:'Body System/Claim Logic'},
+{stem:'ECG ordered for ankle pain. Office should recognize:',options:['Valid claim','Medical necessity problem','Need modifier -LT','Patient needs new plan'],answer:1,rationale:'ECG (heart test) + ankle pain = mismatch.',cat:'Body System/Claim Logic'},
+{stem:'Respiratory ICD-10 codes typically start with:',options:['E','I','J','S'],answer:2,rationale:'J-codes = respiratory diseases.',cat:'Body System/Claim Logic'},
+{stem:'Wound care involves which body system?',options:['Endocrine','Cardiovascular','Respiratory','Integumentary (Skin)'],answer:3,rationale:'Wound care = skin = integumentary.',cat:'Body System/Claim Logic'},
+{stem:'Insurance denies claim with valid diagnosis and procedure codes because:',options:['Need two diagnosis codes','Diagnosis doesn\'t logically support procedure','Insurers deny all first claims','Used CPT instead of HCPCS'],answer:1,rationale:'Codes present but mismatched = no medical necessity.',cat:'Body System/Claim Logic'},
+{stem:'Chest pain + stress test. Claim outcome?',options:['Denied — never covered','Likely paid — diagnosis supports procedure','Rejected — CPT invalid','Pending — cardiac review needed'],answer:1,rationale:'Chest pain justifies cardiac stress test.',cat:'Body System/Claim Logic'},
+{stem:'Vague documentation may lead to:',options:['Higher reimbursement','Denial or downcoding','Automatic approval','Deductible elimination'],answer:1,rationale:'Insufficient documentation = potential denial or downcoding.',cat:'Body System/Claim Logic'}
+];
+
+// ============================================================
+// CHALLENGE MODE
+// ============================================================
+let challengeState=null;
+function renderChallengeSetup(){
+document.getElementById('challengeContent').innerHTML=`<div style="padding-top:30px">
+<h2>&#9201; NHA Review Challenge</h2>
+<p style="color:var(--text-muted);margin:8px 0 20px">Test yourself under timed conditions. No hints or strategy boxes.</p>
+<div class="card"><h3>Choose Your Challenge Length</h3>
+<div class="challenge-options"><div class="challenge-opt" onclick="selChLen(this,10)">10</div><div class="challenge-opt" onclick="selChLen(this,20)">20</div><div class="challenge-opt" onclick="selChLen(this,30)">30</div><div class="challenge-opt" onclick="selChLen(this,60)">60</div></div>
+<p style="color:var(--text-muted);font-size:0.88rem;margin-top:6px">Number of questions</p>
+<button class="btn btn-primary" id="startChBtn" onclick="startChallenge()" style="margin-top:16px" disabled>Start Challenge</button></div>
+<div class="callout callout-gold" style="max-width:620px"><div class="callout-title">&#9888; Important</div>This estimates review readiness only. It does NOT predict actual NHA exam scores.</div></div>`;
+}
+let selectedLen=0;
+function selChLen(el,n){document.querySelectorAll('.challenge-opt').forEach(o=>o.classList.remove('selected'));el.classList.add('selected');selectedLen=n;document.getElementById('startChBtn').disabled=false;}
+function shuffle(a){let r=[...a];for(let i=r.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;}
+
+function startChallenge(){
+let qs=shuffle(allQuestions).slice(0,selectedLen).map(q=>{let idx=[0,1,2,3],sh=shuffle(idx),nOpts=sh.map(i=>q.options[i]),nAns=sh.indexOf(q.answer);return{...q,options:nOpts,answer:nAns,originalCat:q.cat};});
+challengeState={questions:qs,current:0,answers:new Array(qs.length).fill(-1),startTime:Date.now(),finished:false};
+renderChQ();
+}
+function renderChQ(){
+let s=challengeState;if(s.current>=s.questions.length){finishChallenge();return;}
+let q=s.questions[s.current],L=['A','B','C','D'],el=Math.floor((Date.now()-s.startTime)/1000),m=Math.floor(el/60),sc=el%60;
+let answered=s.answers[s.current]!==-1;
+let feedback=answered?`<div class="q-feedback show ${s.answers[s.current]===q.answer?'correct-fb':'incorrect-fb'}">
+${s.answers[s.current]===q.answer?'<strong>&#10003; Correct.</strong>':'<strong>&#10007; Not quite.</strong>'} Correct answer: <strong>${L[q.answer]}. ${q.options[q.answer]}</strong><br>${q.rationale}
+</div>`:'';
+let optionHtml=q.options.map((o,i)=>{
+let cls='q-opt';
+if(answered&&i===q.answer)cls+=' correct';
+if(answered&&i===s.answers[s.current]&&i!==q.answer)cls+=' incorrect';
+if(!answered&&s.answers[s.current]===i)cls+=' selected';
+let click=answered?'':'onclick="chSel('+i+')"';
+let style=answered?'style="pointer-events:none"':'';
+return `<div class="${cls}" data-idx="${i}" ${click} ${style}><span class="letter">${L[i]}</span><span>${o}</span></div>`;
+}).join('');
+document.getElementById('challengeContent').innerHTML=`<div style="padding-top:20px">
+<div class="challenge-header"><span class="q-counter">Question ${s.current+1} of ${s.questions.length}</span><span class="timer" id="chTimer">${m}:${sc<10?'0':''}${sc}</span></div>
+<div class="progress-bar"><div class="progress-fill" style="width:${(s.current/s.questions.length)*100}%"></div></div>
+<div class="card" style="margin-top:16px"><div class="q-stem">${q.stem}</div><div class="q-options">${optionHtml}</div>${feedback}
+<div class="btn-group" style="margin-top:16px">${s.current>0?'<button class="btn btn-outline btn-sm" onclick="chPrev()">&larr; Prev</button>':''}<button class="btn btn-primary btn-sm" onclick="chNext()" ${answered?'':'disabled style="opacity:.45;cursor:not-allowed"'}>${answered?(s.current===s.questions.length-1?'Finish':'Next &rarr;'):'Answer to continue'}</button></div></div></div>`;
+if(!s.finished){clearInterval(window._chT);window._chT=setInterval(()=>{let e=document.getElementById('chTimer');if(!e){clearInterval(window._chT);return;}let t=Math.floor((Date.now()-s.startTime)/1000),mm=Math.floor(t/60),ss=t%60;e.textContent=mm+':'+(ss<10?'0':'')+ss;},1000);}
+}
+function chSel(i){challengeState.answers[challengeState.current]=i;renderChQ();}
+function chNext(){challengeState.current++;renderChQ();}
+function chPrev(){challengeState.current--;renderChQ();}
+
+function finishChallenge(){
+clearInterval(window._chT);challengeState.finished=true;let s=challengeState,tt=Math.floor((Date.now()-s.startTime)/1000);totalTimeSpent=tt;
+let correct=0,catScores={},missed=[];
+s.questions.forEach((q,i)=>{let c=q.originalCat||q.cat;if(!catScores[c])catScores[c]={right:0,total:0};catScores[c].total++;if(s.answers[i]===q.answer){correct++;catScores[c].right++;}else missed.push({stem:q.stem,correct:q.options[q.answer],chosen:s.answers[i]>=0?q.options[s.answers[i]]:'(skipped)',cat:c,rationale:q.rationale});});
+let pct=Math.round(correct/s.questions.length*100),level=pct>=85?'Strong Review Performance':pct>=70?'Almost Ready':pct>=50?'Developing':'Needs Review',lc=pct>=85?'var(--green)':pct>=70?'var(--blue)':pct>=50?'var(--gold)':'var(--red)';
+challengeResults={correct,total:s.questions.length,pct,level,catScores,missed,totalTime:tt};
+let mn=Math.floor(tt/60),sc=tt%60;
+let h=`<div style="padding-top:20px"><h2>&#127881; Challenge Results</h2>
+<div class="stat-grid"><div class="stat-card"><div class="stat-num" style="-webkit-text-fill-color:${lc};color:${lc}">${pct}%</div><div class="stat-label">Score</div></div><div class="stat-card"><div class="stat-num">${correct}/${s.questions.length}</div><div class="stat-label">Correct</div></div><div class="stat-card"><div class="stat-num">${mn}:${sc<10?'0':''}${sc}</div><div class="stat-label">Time</div></div><div class="stat-card"><div class="stat-num" style="font-size:1rem;-webkit-text-fill-color:${lc};color:${lc}">${level}</div><div class="stat-label">Readiness</div></div></div>
+<div class="callout callout-gold"><div class="callout-title">&#9888; Note</div>This estimates review readiness only.</div>
+<div class="card"><h3>Score by Category</h3>`;
+for(let c in catScores){let cs=catScores[c],cp=cs.total>0?Math.round(cs.right/cs.total*100):0;h+=`<div style="margin:10px 0"><div style="display:flex;justify-content:space-between"><strong>${c}</strong><span style="font-weight:800;color:${cp>=70?'var(--green)':cp>=50?'var(--gold)':'var(--red)'}">${cp}%</span></div><div class="progress-bar"><div class="progress-fill" style="width:${cp}%;background:${cp>=70?'var(--green)':cp>=50?'var(--gold)':'var(--red)'}"></div></div></div>`;}
+h+=`</div>`;
+if(missed.length>0){h+=`<div class="card"><h3>Missed Questions</h3>`;missed.forEach((m,i)=>{h+=`<div style="border-bottom:1px solid rgba(0,0,0,0.05);padding:12px 0"><p style="font-weight:700;font-size:0.9rem">${i+1}. ${m.stem}</p><p style="font-size:0.85rem;color:var(--red)">Your answer: ${m.chosen}</p><p style="font-size:0.85rem;color:var(--green)">Correct: ${m.correct}</p><p style="font-size:0.85rem;color:var(--text-muted)">${m.rationale}</p></div>`;});h+=`</div>`;}
+let stMap={'Insurance Basics':1,'Prior Auth/Referral/COB':2,'Billing Forms':3,'Coding':4,'Insurance Plans':5,'Body System/Claim Logic':6},weakest=null,wp=101;
+for(let c in catScores){let p=catScores[c].total>0?catScores[c].right/catScores[c].total*100:100;if(p<wp){wp=p;weakest=c;}}
+h+=`<div class="card"><h3>Recommended</h3><p>Weakest area: <strong>${weakest}</strong> — review Station ${stMap[weakest]||'all'}.</p><div class="btn-group"><button class="btn btn-primary" onclick="renderChallengeSetup()">Try Again</button><button class="btn btn-outline" onclick="goTo('dashboard')">Full Report</button><button class="btn btn-outline" onclick="goTo('map')">Back to Map</button></div></div></div>`;
+document.getElementById('challengeContent').innerHTML=h;
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function renderDashboard(){
+let c=document.getElementById('dashContent'),r=challengeResults;
+if(!r){c.innerHTML=`<div style="padding-top:30px"><h2>&#128202; Performance Dashboard</h2><div class="card"><p>Complete a Challenge first.</p><button class="btn btn-primary" onclick="goTo('challenge')">Go to Challenge</button></div></div>`;return;}
+let mn=Math.floor(r.totalTime/60),sc=r.totalTime%60,stDone=Object.keys(completed).length;
+let strongest='',weakest='',bp=0,wp=101;
+for(let c in r.catScores){let cs=r.catScores[c],p=cs.total>0?cs.right/cs.total*100:0;if(p>bp){bp=p;strongest=c;}if(p<wp){wp=p;weakest=c;}}
+let fb=r.pct>=85?'Excellent! Strong grasp of billing concepts.':r.pct>=70?'Good progress! Focus on weaker areas.':r.pct>=50?'Building foundation. Review lowest areas.':'Keep going — revisit stations and retry.';
+let stMap={'Insurance Basics':1,'Prior Auth/Referral/COB':2,'Billing Forms':3,'Coding':4,'Insurance Plans':5,'Body System/Claim Logic':6};
+let summary=`NHA CCMA Billing Prep Report\nScore: ${r.correct}/${r.total} (${r.pct}%)\nReadiness: ${r.level}\nTime: ${mn}m ${sc}s\nStrongest: ${strongest} (${Math.round(bp)}%)\nWeakest: ${weakest} (${Math.round(wp)}%)\nStations: ${stDone}/6\nMissed: ${r.missed.length}\n${r.missed.map((m,i)=>`  ${i+1}. [${m.cat}] ${m.stem.substring(0,60)}`).join('\n')}`;
+let h=`<div style="padding-top:30px"><h2>&#128202; Performance Dashboard</h2>
+<div class="stat-grid"><div class="stat-card"><div class="stat-num">${r.pct}%</div><div class="stat-label">Overall</div></div><div class="stat-card"><div class="stat-num">${r.correct}/${r.total}</div><div class="stat-label">Correct</div></div><div class="stat-card"><div class="stat-num">${mn}:${sc<10?'0':''}${sc}</div><div class="stat-label">Time</div></div><div class="stat-card"><div class="stat-num">${stDone}/6</div><div class="stat-label">Stations</div></div></div>
+<div class="card"><h3>Readiness: <span style="color:${r.pct>=70?'var(--green)':'var(--red)'}">${r.level}</span></h3><p style="color:var(--text-muted)">${fb}</p></div>
+<div class="card"><h3>Category Breakdown</h3>`;
+for(let cat in r.catScores){let cs=r.catScores[cat],cp=cs.total>0?Math.round(cs.right/cs.total*100):0;h+=`<div style="margin:10px 0"><div style="display:flex;justify-content:space-between"><strong>${cat}</strong><span style="font-weight:800;color:${cp>=70?'var(--green)':cp>=50?'var(--gold)':'var(--red)'}">${cp}%</span></div><div class="progress-bar"><div class="progress-fill" style="width:${cp}%;background:${cp>=70?'var(--green)':cp>=50?'var(--gold)':'var(--red)'}"></div></div></div>`;}
+h+=`</div><div class="card"><h3>Strongest</h3><p style="color:var(--green);font-weight:700">${strongest} (${Math.round(bp)}%)</p></div><div class="card"><h3>Weakest</h3><p style="color:var(--red);font-weight:700">${weakest} (${Math.round(wp)}%)</p><p style="font-size:0.9rem;color:var(--text-muted)">Review Station ${stMap[weakest]||''}</p></div>`;
+if(r.missed.length>0){h+=`<div class="card"><h3>Missed Concepts</h3><ul style="margin-left:18px">`;r.missed.forEach(m=>{h+=`<li style="margin:4px 0;font-size:0.88rem">${m.cat}: ${m.stem.substring(0,70)}…</li>`;});h+=`</ul></div>`;}
+h+=`<div class="card"><h3>Copy Summary</h3><div class="copy-area" id="copySummary">${summary}</div><button class="btn btn-primary btn-sm" onclick="copySm()">Copy</button></div>
+<div class="btn-group" style="justify-content:center;padding:20px 0"><button class="btn btn-primary" onclick="renderChallengeSetup();goTo('challenge')">Retake</button><button class="btn btn-outline" onclick="goTo('map')">Map</button></div></div>`;
+c.innerHTML=h;
+}
+function copySm(){let t=document.getElementById('copySummary').textContent;navigator.clipboard.writeText(t).then(()=>{event.target.textContent='Copied!';setTimeout(()=>event.target.textContent='Copy',2000);}).catch(()=>{});}
+
+// INIT
+function initAll(){updateMap();renderStation1();renderStation2();renderStation3();renderStation4();renderStation5();renderStation6();}
+initAll();
+</script>
+</body>
+</html>
