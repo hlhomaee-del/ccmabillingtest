@@ -521,15 +521,212 @@ return `<div class="cloud-card ${color}" onclick="this.classList.toggle('flipped
 
 // ===== BUILD LESSON CONCEPT (expandable) =====
 function escHtml(str){return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function getLessonConceptCheck(concept){
+let term=concept.term;
+let lower=term.toLowerCase();
+let make=(question,choices,rationale)=>({question,choices,rationale});
+let bank={
+"Participating Provider (PAR)":make(
+"A patient sees a PAR provider. The billed charge is higher than the allowed amount. What should happen to the difference?",
+[{correct:true,text:"Provider adjusts the balance"},{correct:false,text:"Patient pays the balance"},{correct:false,text:"Insurer bills the patient"}],
+"A PAR provider has a contract to accept the allowed amount. The difference between billed and allowed is a provider write-off, not a patient bill."
+),
+"Allowed Amount":make(
+"A claim shows billed charges and an insurance allowed amount. Which amount is used to calculate insurance payment?",
+[{correct:true,text:"Allowed amount is used"},{correct:false,text:"Billed charge is used"},{correct:false,text:"Copay amount is used"}],
+"Insurance payment and patient coinsurance are based on the allowed amount, not the provider’s original billed charge."
+),
+"Write-Off":make(
+"A PAR provider bills $220, but the plan allows $160. What is the $60 difference called?",
+[{correct:true,text:"Provider write-off"},{correct:false,text:"Patient coinsurance"},{correct:false,text:"Insurance deductible"}],
+"The write-off is the part the PAR provider removes because the contract accepts the allowed amount as full payment."
+),
+"Copay (Copayment)":make(
+"At check-in, a patient owes a set $25 office-visit amount. Which term describes this payment?",
+[{correct:true,text:"Copay"},{correct:false,text:"Coinsurance"},{correct:false,text:"Write-off"}],
+"A copay is a fixed amount, usually collected at the visit. Coinsurance is a percentage, not a flat visit fee."
+),
+"Coinsurance":make(
+"A plan says 80/20 after the deductible is met. What does the patient usually owe?",
+[{correct:true,text:"Twenty percent share"},{correct:false,text:"Fixed visit copay"},{correct:false,text:"Full billed charge"}],
+"Coinsurance is the patient’s percentage share of the allowed amount after the deductible has been satisfied."
+),
+"Deductible":make(
+"A patient must pay the first $500 each year before the plan begins sharing costs. What is this called?",
+[{correct:true,text:"Deductible"},{correct:false,text:"Coinsurance"},{correct:false,text:"Capitation"}],
+"The deductible is the amount the patient pays before the plan begins paying its portion of covered services."
+),
+"First/Second/Third-Party Payer":make(
+"In healthcare billing, which party is the insurance company?",
+[{correct:true,text:"Third-party payer"},{correct:false,text:"Second-party payer"},{correct:false,text:"First-party payer"}],
+"The patient is first party, the provider is second party, and the insurance company is the third-party payer."
+),
+"Assignment of Benefits (AOB)":make(
+"A patient signs a form allowing the insurer to send payment directly to the clinic. What form is this?",
+[{correct:true,text:"Assignment of benefits"},{correct:false,text:"Advance notice form"},{correct:false,text:"Coordination record"}],
+"Assignment of Benefits authorizes the insurance payment to go directly to the provider instead of the patient."
+),
+"Guarantor":make(
+"A minor patient receives care. The parent is legally responsible for the bill. What is the parent?",
+[{correct:true,text:"Guarantor"},{correct:false,text:"Third-party payer"},{correct:false,text:"Participating provider"}],
+"The guarantor is the person financially responsible for the patient’s bill, often a parent for a minor."
+),
+"Prior Authorization":make(
+"A plan requires approval before an MRI is performed. What should the office obtain first?",
+[{correct:true,text:"Prior authorization"},{correct:false,text:"Remittance advice"},{correct:false,text:"Balance billing form"}],
+"Prior authorization is insurer approval obtained before certain services. Without it, payment may be denied."
+),
+"Referral":make(
+"An HMO patient needs to see a specialist. What is usually required from the PCP?",
+[{correct:true,text:"Referral"},{correct:false,text:"Remittance advice"},{correct:false,text:"Claim adjudication"}],
+"A referral is the PCP’s direction for the patient to see a specialist, commonly required by HMO plans."
+),
+"Coordination of Benefits (COB)":make(
+"A patient has two active insurance plans. What process decides which plan pays first?",
+[{correct:true,text:"Coordination of benefits"},{correct:false,text:"Assignment of benefits"},{correct:false,text:"Advance beneficiary notice"}],
+"COB determines the primary and secondary payers so the claim is processed correctly without duplicate payment."
+),
+"Birthday Rule":make(
+"A child is covered by both parents. Which parent’s plan is usually primary under the birthday rule?",
+[{correct:true,text:"Earlier birthday in year"},{correct:false,text:"Older parent by age"},{correct:false,text:"Higher premium plan"}],
+"The birthday rule uses month and day only. The parent whose birthday occurs earlier in the calendar year is primary."
+),
+"Primary vs Secondary Insurance":make(
+"A patient has two plans. The first plan processes the claim before the other. What is it called?",
+[{correct:true,text:"Primary insurance"},{correct:false,text:"Secondary insurance"},{correct:false,text:"Supplemental invoice"}],
+"Primary insurance pays first. Secondary insurance may review remaining eligible responsibility after the primary plan processes."
+),
+"When Patient May Be Responsible":make(
+"A service is not covered and the patient was informed correctly before care. Who may owe the charge?",
+[{correct:true,text:"Patient may owe"},{correct:false,text:"Provider must always pay"},{correct:false,text:"Insurer must always pay"}],
+"The patient may be responsible when coverage rules are not met, such as no authorization, noncovered service, or valid advance notice."
+),
+"CMS-1500":make(
+"An outpatient office submits a professional claim to insurance. Which form is commonly used?",
+[{correct:true,text:"CMS-1500"},{correct:false,text:"EOB statement"},{correct:false,text:"Remittance advice"}],
+"The CMS-1500 is the standard professional claim form used by outpatient providers and physician offices."
+),
+"Explanation of Benefits (EOB)":make(
+"A patient receives a document showing what insurance paid and what the patient may owe. What is it?",
+[{correct:true,text:"Explanation of benefits"},{correct:false,text:"CMS claim form"},{correct:false,text:"Provider remittance"}],
+"An EOB explains the claim result for the patient, including allowed amount, payment, adjustments, and patient responsibility."
+),
+"Remittance Advice (RA)":make(
+"A provider receives a payer document explaining claim payment and adjustments. What is it?",
+[{correct:true,text:"Remittance advice"},{correct:false,text:"Patient EOB"},{correct:false,text:"Advance notice"}],
+"Remittance Advice is sent to the provider and explains how the payer processed and paid the claim."
+),
+"Advanced Beneficiary Notice (ABN)":make(
+"Medicare may not cover a service. Which form tells the patient before the service?",
+[{correct:true,text:"ABN"},{correct:false,text:"RA"},{correct:false,text:"NPI"}],
+"An ABN warns a Medicare patient before a service that Medicare may deny, making patient responsibility possible."
+),
+"Accounts Receivable (A/R)":make(
+"A clinic tracks money still owed to the practice after claims are sent. What account is this?",
+[{correct:true,text:"Accounts receivable"},{correct:false,text:"Accounts payable"},{correct:false,text:"Capitation account"}],
+"Accounts receivable means money owed to the provider, including unpaid insurance or patient balances."
+),
+"Accounts Payable (A/P)":make(
+"A clinic tracks bills it owes for rent, supplies, and vendor invoices. What account is this?",
+[{correct:true,text:"Accounts payable"},{correct:false,text:"Accounts receivable"},{correct:false,text:"Patient ledger"}],
+"Accounts payable means money the office owes to others, such as vendors, landlords, or suppliers."
+),
+"ICD-10-CM (Diagnosis Codes)":make(
+"A claim needs the code that explains why the patient was treated. Which code set is used?",
+[{correct:true,text:"ICD-10-CM"},{correct:false,text:"CPT"},{correct:false,text:"HCPCS Level II"}],
+"ICD-10-CM reports diagnoses and reasons for care. It supports medical necessity for the service."
+),
+"CPT (Procedure Codes)":make(
+"A provider performs an office visit and procedure. Which code set reports the service?",
+[{correct:true,text:"CPT"},{correct:false,text:"ICD-10-CM"},{correct:false,text:"NPI"}],
+"CPT codes describe services and procedures performed by the provider. ICD-10-CM explains why care was needed."
+),
+"HCPCS Level II (Supplies & Equipment)":make(
+"A claim includes a wheelchair, brace, or injectable supply. Which code set may be used?",
+[{correct:true,text:"HCPCS Level II"},{correct:false,text:"ICD-10-CM"},{correct:false,text:"EOB"}],
+"HCPCS Level II often reports supplies, durable medical equipment, ambulance services, and certain drugs."
+),
+"Modifiers":make(
+"A CPT code needs extra detail, such as a separate procedure or bilateral service. What is added?",
+[{correct:true,text:"Modifier"},{correct:false,text:"Diagnosis code"},{correct:false,text:"Payer number"}],
+"A modifier gives additional information about how, where, or why a service was performed without changing the base CPT code."
+),
+"E/M Codes":make(
+"A provider evaluates a patient and manages care during an office visit. Which code family applies?",
+[{correct:true,text:"E/M codes"},{correct:false,text:"Supply codes"},{correct:false,text:"Diagnosis codes"}],
+"E/M codes report evaluation and management services, such as office visits and hospital visits."
+),
+"Medical Necessity & Code Linking":make(
+"A diagnosis must support the procedure billed. What concept is being tested?",
+[{correct:true,text:"Medical necessity"},{correct:false,text:"Patient scheduling"},{correct:false,text:"Provider credentialing"}],
+"Medical necessity means the diagnosis logically justifies the procedure, test, or treatment billed."
+),
+"Upcoding & Downcoding":make(
+"A claim is billed at a higher level than documentation supports. What is this called?",
+[{correct:true,text:"Upcoding"},{correct:false,text:"Downcoding"},{correct:false,text:"Bundling"}],
+"Upcoding means billing for a higher level of service than supported. It is improper and can be fraudulent."
+),
+"NPI":make(
+"A claim needs the provider’s standard national identifier. Which number is used?",
+[{correct:true,text:"NPI"},{correct:false,text:"EOB"},{correct:false,text:"ABN"}],
+"The National Provider Identifier identifies the provider on healthcare claims and billing transactions."
+),
+"Medicare":make(
+"A 68-year-old patient has federal health insurance based mainly on age. Which program is this?",
+[{correct:true,text:"Medicare"},{correct:false,text:"Medicaid"},{correct:false,text:"Workers’ compensation"}],
+"Medicare is a federal program mainly for adults age 65 or older and certain people with disabilities."
+),
+"Medicaid":make(
+"A patient qualifies for insurance based on low income and state rules. Which program is this?",
+[{correct:true,text:"Medicaid"},{correct:false,text:"Medicare"},{correct:false,text:"TRICARE"}],
+"Medicaid is a joint federal-state program that provides coverage for eligible low-income individuals."
+),
+"TRICARE & CHAMPVA":make(
+"A patient’s coverage is connected to military service or veteran family eligibility. Which plan type fits?",
+[{correct:true,text:"TRICARE or CHAMPVA"},{correct:false,text:"Medicaid managed care"},{correct:false,text:"Workers’ compensation"}],
+"TRICARE and CHAMPVA are associated with military, veterans, and qualifying family-member coverage."
+),
+"CHIP & Workers' Comp":make(
+"A child qualifies for state children’s coverage, not adult Medicare. Which program may apply?",
+[{correct:true,text:"CHIP"},{correct:false,text:"TRICARE"},{correct:false,text:"Workers’ compensation"}],
+"CHIP helps cover eligible children. Workers’ compensation is for job-related injury or illness."
+),
+"HMO":make(
+"A plan requires the patient to use a PCP and usually obtain referrals. Which plan is this?",
+[{correct:true,text:"HMO"},{correct:false,text:"PPO"},{correct:false,text:"Medicare Part A"}],
+"An HMO commonly uses a PCP gatekeeper and referral rules for specialist care."
+),
+"PPO":make(
+"A plan allows more specialist access and broader network choice, often at higher cost. Which plan is this?",
+[{correct:true,text:"PPO"},{correct:false,text:"HMO"},{correct:false,text:"Capitation"}],
+"A PPO generally offers more provider flexibility than an HMO, often with higher out-of-pocket cost."
+),
+"Capitation & Pay-for-Performance":make(
+"A provider is paid a set amount per patient each month. What payment model is this?",
+[{correct:true,text:"Capitation"},{correct:false,text:"Coinsurance"},{correct:false,text:"Prior authorization"}],
+"Capitation pays a set amount per member per period, regardless of how many services are used."
+)
+};
+if(bank[term]) return bank[term];
+if(lower.includes('system')){
+return make(
+`A claim includes a diagnosis and procedure for the ${term.replace(' System','').toLowerCase()} system. What must be true for payment?`,
+[{correct:true,text:"Codes must support care"},{correct:false,text:"Codes may be unrelated"},{correct:false,text:"Only the CPT matters"}],
+"The diagnosis and procedure must logically match. This is the billing idea of medical necessity."
+);
+}
+return make(
+`Which statement best matches ${term}?`,
+[{correct:true,text:"It matches this concept"},{correct:false,text:"It names another concept"},{correct:false,text:"It ignores the claim rule"}],
+`This item tests the definition and claim rule for ${term}: ${concept.def}`
+);
+}
+
 function buildLessonConcept(concept,index,iconBg){
 let answerId='lessonCheck_'+concept.term.replace(/[^a-zA-Z0-9]/g,'_')+'_'+index+'_answer';
-let rationale=`<strong>Rationale:</strong> The strongest answer applies the rule to the scenario before choosing. For <strong>${concept.term}</strong>, the key issue is: ${concept.trap} <br><strong>Memory hook:</strong> ${concept.hook}`;
-let choices=shuffleLessonChoices([
-{correct:true,text:'Apply the rule, then choose.'},
-{correct:false,text:'Pick the familiar term first.'},
-{correct:false,text:'Use one clue, then guess.'}
-]);
-let choiceButtons=choices.map(ch=>`<button class="concept-check-btn" type="button" data-correct="${ch.correct}" onclick="lessonConceptCheck(this); event.stopPropagation();">${ch.text}</button>`).join('');
+let check=getLessonConceptCheck(concept);
+let choices=shuffleLessonChoices(check.choices);
+let choiceButtons=choices.map(ch=>`<button class="concept-check-btn" type="button" data-correct="${ch.correct}" onclick="lessonConceptCheck(this); event.stopPropagation();">${escHtml(ch.text)}</button>`).join('');
 return `<div class="lesson-concept">
 <div class="lesson-concept-header" onclick="this.closest('.lesson-concept').classList.toggle('open')">
 <div class="concept-icon" style="background:${iconBg||'linear-gradient(135deg,#6366f1,#8b5cf6)'};color:#fff">${index+1}</div>
@@ -541,14 +738,15 @@ return `<div class="lesson-concept">
 <div class="callout callout-green"><div class="callout-title">&#127970; Medical Office Example</div>${concept.example}</div>
 <div class="callout callout-gold"><div class="callout-title">&#9888;&#65039; NHA Test Trap</div>${concept.trap}</div>
 <p style="font-size:0.88rem;color:var(--text-muted);margin-top:8px"><strong>&#128161; Memory Hook:</strong> ${concept.hook}</p>
-<div class="lesson-mini-check" data-answer-id="${answerId}" data-rationale="${escHtml(rationale)}">
+<div class="lesson-mini-check" data-answer-id="${answerId}" data-rationale="${escHtml('<strong>Rationale:</strong> '+check.rationale)}">
 <h4>&#10024; Concept Check</h4>
-<p>Which answer shows the strongest test-taking thinking for <strong>${concept.term}</strong>?</p>
+<p>${check.question}</p>
 <div class="concept-check-options">${choiceButtons}</div>
 <div class="lesson-feedback" id="${answerId}"></div>
 </div>
 </div></div></div>`;
 }
+
 function shuffleLessonChoices(items){
 let r=[...items];
 for(let i=r.length-1;i>0;i--){
