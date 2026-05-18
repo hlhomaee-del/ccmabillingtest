@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NHA CCMA Admin &amp; Billing Prep</title>
+<title>Review: Billing, Coding &amp; Insurance Concepts for CCMA</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -339,6 +339,11 @@ p{max-width:72ch}
 
 /* ===== COPY ===== */
 .copy-area{background:rgba(99,102,241,0.04);border:1.5px solid rgba(99,102,241,0.15);border-radius:var(--radius-sm);padding:16px;font-family:monospace;font-size:0.83rem;white-space:pre-wrap;max-height:300px;overflow-y:auto;margin:12px 0}
+.report-feedback{width:100%;min-height:140px;padding:16px;border:2px solid rgba(99,102,241,0.16);border-radius:var(--radius-sm);font-family:inherit;font-size:0.95rem;line-height:1.5;resize:vertical;background:rgba(255,255,255,0.72);box-shadow:inset 0 2px 8px rgba(99,102,241,0.05);transition:var(--transition)}
+.report-feedback:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 4px rgba(99,102,241,0.10),inset 0 2px 8px rgba(99,102,241,0.04)}
+.shortcut-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:14px}
+.shortcut-btn{justify-content:center;text-align:center;border-radius:18px;background:linear-gradient(135deg,rgba(255,255,255,0.88),rgba(255,255,255,0.58));border:1.5px solid rgba(99,102,241,0.18);box-shadow:0 4px 14px rgba(99,102,241,0.08);color:var(--indigo);font-weight:800}
+.shortcut-btn:hover{transform:translateY(-2px);background:linear-gradient(135deg,var(--indigo-light),var(--purple-light));}
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:768px){
@@ -369,7 +374,7 @@ p{max-width:72ch}
 <body>
 
 <div class="top-bar">
-<div class="logo">CCMA Billing Prep</div>
+<div class="logo">CCMA Review</div>
 <div class="nav-pills" id="navPills">
 <button class="nav-pill active" onclick="goTo('welcome')">Home</button>
 <button class="nav-pill" onclick="goTo('map')">Map</button>
@@ -387,9 +392,8 @@ p{max-width:72ch}
 <div class="page active" id="page-welcome">
 <div class="container">
 <div class="hero">
-<div class="hero-badge">&#127891; NHA CCMA Exam Prep</div>
-<h1>Master <span>Medical Billing &amp; Insurance</span></h1>
-<p>You are not just memorizing terms. You are learning how insurance, forms, coding manuals, and claim decisions work together — building real understanding for the NHA CCMA exam.</p>
+<div class="hero-badge">&#127891; CCMA Review</div>
+<h1>Review: <span>Billing, Coding &amp; Insurance Concepts</span> for CCMA</h1>
 <button class="btn btn-primary" onclick="goTo('map')" style="font-size:1.05rem;padding:16px 36px">Begin Your Journey &#10132;</button>
 </div>
 <div class="card" style="max-width:720px;margin:0 auto">
@@ -1110,27 +1114,98 @@ document.getElementById('challengeContent').innerHTML=h;
 // ============================================================
 // DASHBOARD
 // ============================================================
+function stationCompletionDetails(){
+let missing=stationMeta.filter(st=>!completed['s'+st.id]);
+let done=stationMeta.filter(st=>completed['s'+st.id]);
+return {missing,done,count:done.length,total:stationMeta.length};
+}
+function stationShortcutButtons(list){
+if(!list.length)return '<div class="callout callout-green"><div class="callout-title">&#10003; All Review Pages Complete</div>All six stations have been marked complete.</div>';
+return `<div class="shortcut-grid">${list.map(st=>`<button class="btn shortcut-btn" onclick="goTo('station${st.id}')">${st.icon} Go to Station ${st.id}<br><span style="font-size:.78rem;font-weight:700;color:var(--text-muted)">${st.title}</span></button>`).join('')}</div>`;
+}
+function buildReportText(studentFeedback){
+let r=challengeResults;
+let comp=stationCompletionDetails();
+let mn=r?Math.floor(r.totalTime/60):0,sc=r?r.totalTime%60:0;
+let strongest='Not available',weakest='Not available',bp=0,wp=101;
+if(r){
+for(let cat in r.catScores){let cs=r.catScores[cat],p=cs.total>0?cs.right/cs.total*100:0;if(p>bp){bp=p;strongest=cat;}if(p<wp){wp=p;weakest=cat;}}
+}
+let missingLine=comp.missing.length?comp.missing.map(st=>`Station ${st.id}: ${st.title}`).join('; '):'None';
+let doneLine=comp.done.length?comp.done.map(st=>`Station ${st.id}: ${st.title}`).join('; '):'None marked complete';
+let text=`CCMA Review: Billing, Coding & Insurance Concepts Report\n\n`;
+text+=`Completion\n`;
+text+=`Stations completed: ${comp.count}/${comp.total}\n`;
+text+=`Completed pages: ${doneLine}\n`;
+text+=`Pages still needing completion: ${missingLine}\n\n`;
+if(r){
+text+=`Challenge Performance\n`;
+text+=`Score: ${r.correct}/${r.total} (${r.pct}%)\n`;
+text+=`Readiness: ${r.level}\n`;
+text+=`Time: ${mn}m ${sc}s\n`;
+text+=`Strongest area: ${strongest} (${Math.round(bp)}%)\n`;
+text+=`Area to review first: ${weakest} (${Math.round(wp)}%)\n`;
+text+=`Missed questions: ${r.missed.length}\n`;
+if(r.missed.length){
+text+=`\nMissed Concepts\n`;
+r.missed.forEach((m,i)=>{text+=`${i+1}. [${m.cat}] ${m.stem}\nCorrect answer: ${m.correct}\nRationale: ${m.rationale.replace(/<[^>]*>/g,' ')}\n`;});
+}
+}else{
+text+=`Challenge Performance\n`;
+text+=`Challenge not completed yet. Student should complete Challenge Mode for a score-based readiness report.\n`;
+}
+text+=`\nStudent Feedback\n${studentFeedback&&studentFeedback.trim()?studentFeedback.trim():'No feedback entered.'}\n`;
+return text;
+}
+function generateStudentReport(){
+let fb=document.getElementById('studentFeedback')?document.getElementById('studentFeedback').value:'';
+let report=buildReportText(fb);
+let box=document.getElementById('generatedReportBox');
+let wrap=document.getElementById('generatedReportWrap');
+if(box)box.textContent=report;
+if(wrap)wrap.style.display='block';
+}
+function copyGeneratedReport(btn){
+let box=document.getElementById('generatedReportBox');
+let text=box?box.textContent:'';
+if(!text.trim()){
+  generateStudentReport();
+  box=document.getElementById('generatedReportBox');
+  text=box?box.textContent:'';
+}
+function done(){if(btn){btn.textContent='Copied for Amplify!';setTimeout(()=>btn.textContent='Copy Report + Feedback',2200);}}
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(()=>fallbackCopy(text,done));}
+else fallbackCopy(text,done);
+}
+function fallbackCopy(text,done){let ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done&&done();}catch(e){}document.body.removeChild(ta);}
 function renderDashboard(){
-let c=document.getElementById('dashContent'),r=challengeResults;
-if(!r){c.innerHTML=`<div style="padding-top:30px"><h2>&#128202; Performance Dashboard</h2><div class="card"><p>Complete a Challenge first.</p><button class="btn btn-primary" onclick="goTo('challenge')">Go to Challenge</button></div></div>`;return;}
-let mn=Math.floor(r.totalTime/60),sc=r.totalTime%60,stDone=Object.keys(completed).length;
-let strongest='',weakest='',bp=0,wp=101;
-for(let c in r.catScores){let cs=r.catScores[c],p=cs.total>0?cs.right/cs.total*100:0;if(p>bp){bp=p;strongest=c;}if(p<wp){wp=p;weakest=c;}}
-let fb=r.pct>=85?'Excellent! Strong grasp of billing concepts.':r.pct>=70?'Good progress! Focus on weaker areas.':r.pct>=50?'Building foundation. Review lowest areas.':'Keep going — revisit stations and retry.';
-let stMap={'Insurance Basics':1,'Prior Auth/Referral/COB':2,'Billing Forms':3,'Coding':4,'Insurance Plans':5,'Body System/Claim Logic':6};
-let summary=`NHA CCMA Billing Prep Report\nScore: ${r.correct}/${r.total} (${r.pct}%)\nReadiness: ${r.level}\nTime: ${mn}m ${sc}s\nStrongest: ${strongest} (${Math.round(bp)}%)\nWeakest: ${weakest} (${Math.round(wp)}%)\nStations: ${stDone}/6\nMissed: ${r.missed.length}\n${r.missed.map((m,i)=>`  ${i+1}. [${m.cat}] ${m.stem.substring(0,60)}`).join('\n')}`;
-let h=`<div style="padding-top:30px"><h2>&#128202; Performance Dashboard</h2>
-<div class="stat-grid"><div class="stat-card"><div class="stat-num">${r.pct}%</div><div class="stat-label">Overall</div></div><div class="stat-card"><div class="stat-num">${r.correct}/${r.total}</div><div class="stat-label">Correct</div></div><div class="stat-card"><div class="stat-num">${mn}:${sc<10?'0':''}${sc}</div><div class="stat-label">Time</div></div><div class="stat-card"><div class="stat-num">${stDone}/6</div><div class="stat-label">Stations</div></div></div>
-<div class="card"><h3>Readiness: <span style="color:${r.pct>=70?'var(--green)':'var(--red)'}">${r.level}</span></h3><p style="color:var(--text-muted)">${fb}</p></div>
+let c=document.getElementById('dashContent'),r=challengeResults,comp=stationCompletionDetails();
+let stDone=comp.count;
+let strongest='Not available',weakest='Not available',bp=0,wp=101,mn=0,sc=0,fb='Complete the review pages and/or Challenge Mode, then generate the report for Amplify.';
+if(r){
+mn=Math.floor(r.totalTime/60);sc=r.totalTime%60;
+for(let cat in r.catScores){let cs=r.catScores[cat],p=cs.total>0?cs.right/cs.total*100:0;if(p>bp){bp=p;strongest=cat;}if(p<wp){wp=p;weakest=cat;}}
+fb=r.pct>=85?'Excellent review performance. Keep reinforcing the few missed items.':r.pct>=70?'Good progress. Review the weakest area and retry.':r.pct>=50?'Building foundation. Review missed pages and lower-scoring topics.':'Needs review. Go back through the missing or weak stations before retesting.';
+}
+let h=`<div style="padding-top:30px"><h2>&#128202; Report Card</h2>
+<div class="callout callout-blue"><div class="callout-title">&#128203; Before You Submit</div>Generate the report after you finish the review. If a page is not complete, it will be listed with a shortcut so you can return to it quickly.</div>
+<div class="stat-grid"><div class="stat-card"><div class="stat-num">${r?r.pct+'%':'—'}</div><div class="stat-label">Challenge Score</div></div><div class="stat-card"><div class="stat-num">${r?r.correct+'/'+r.total:'—'}</div><div class="stat-label">Correct</div></div><div class="stat-card"><div class="stat-num">${r?mn+':'+(sc<10?'0':'')+sc:'—'}</div><div class="stat-label">Time</div></div><div class="stat-card"><div class="stat-num">${stDone}/6</div><div class="stat-label">Stations Completed</div></div></div>
+<div class="card"><h3>Completion Check</h3><p style="color:var(--text-muted)">${comp.missing.length?`You still have ${comp.missing.length} review page${comp.missing.length>1?'s':''} not marked complete.`:'All review pages are marked complete.'}</p>${stationShortcutButtons(comp.missing)}</div>`;
+if(!r){
+h+=`<div class="card"><h3>Challenge Not Completed</h3><p style="color:var(--text-muted)">You can still generate a completion report, but it will not include a score-based readiness result until Challenge Mode is completed.</p><button class="btn btn-primary" onclick="goTo('challenge')">Go to Challenge Mode</button></div>`;
+}else{
+h+=`<div class="card"><h3>Readiness: <span style="color:${r.pct>=70?'var(--green)':'var(--red)'}">${r.level}</span></h3><p style="color:var(--text-muted)">${fb}</p></div>
 <div class="card"><h3>Category Breakdown</h3>`;
 for(let cat in r.catScores){let cs=r.catScores[cat],cp=cs.total>0?Math.round(cs.right/cs.total*100):0;h+=`<div style="margin:10px 0"><div style="display:flex;justify-content:space-between"><strong>${cat}</strong><span style="font-weight:800;color:${cp>=70?'var(--green)':cp>=50?'var(--gold)':'var(--red)'}">${cp}%</span></div><div class="progress-bar"><div class="progress-fill" style="width:${cp}%;background:${cp>=70?'var(--green)':cp>=50?'var(--gold)':'var(--red)'}"></div></div></div>`;}
-h+=`</div><div class="card"><h3>Strongest</h3><p style="color:var(--green);font-weight:700">${strongest} (${Math.round(bp)}%)</p></div><div class="card"><h3>Weakest</h3><p style="color:var(--red);font-weight:700">${weakest} (${Math.round(wp)}%)</p><p style="font-size:0.9rem;color:var(--text-muted)">Review Station ${stMap[weakest]||''}</p></div>`;
-if(r.missed.length>0){h+=`<div class="card"><h3>Missed Concepts</h3><ul style="margin-left:18px">`;r.missed.forEach(m=>{h+=`<li style="margin:4px 0;font-size:0.88rem">${m.cat}: ${m.stem.substring(0,70)}…</li>`;});h+=`</ul></div>`;}
-h+=`<div class="card"><h3>Copy Summary</h3><div class="copy-area" id="copySummary">${summary}</div><button class="btn btn-primary btn-sm" onclick="copySm()">Copy</button></div>
-<div class="btn-group" style="justify-content:center;padding:20px 0"><button class="btn btn-primary" onclick="renderChallengeSetup();goTo('challenge')">Retake</button><button class="btn btn-outline" onclick="goTo('map')">Map</button></div></div>`;
+h+=`</div><div class="card"><h3>Strongest Area</h3><p style="color:var(--green);font-weight:700">${strongest} (${Math.round(bp)}%)</p></div><div class="card"><h3>Review First</h3><p style="color:var(--red);font-weight:700">${weakest} (${Math.round(wp)}%)</p></div>`;
+if(r.missed.length>0){h+=`<div class="card"><h3>Missed Concepts</h3><ul style="margin-left:18px">`;r.missed.forEach(m=>{h+=`<li style="margin:4px 0;font-size:0.88rem">${m.cat}: ${m.stem.substring(0,90)}…</li>`;});h+=`</ul></div>`;}
+}
+h+=`<div class="card"><h3>Student Feedback</h3><p style="color:var(--text-muted);font-size:0.92rem;margin-bottom:10px">Before generating the report, write a brief reflection. This will be copied with your report for Amplify.</p><textarea class="report-feedback" id="studentFeedback" placeholder="Example: I finished the insurance basics and coding review. I still need more practice with EOB math, prior authorization, and Medicare plan types."></textarea><div class="btn-group"><button class="btn btn-primary" onclick="generateStudentReport()">Generate Report</button></div></div>
+<div class="card" id="generatedReportWrap" style="display:none"><h3>Generated Report for Amplify</h3><div class="copy-area" id="generatedReportBox"></div><button class="btn btn-primary btn-sm" onclick="copyGeneratedReport(this)">Copy Report + Feedback</button></div>
+<div class="btn-group" style="justify-content:center;padding:20px 0"><button class="btn btn-outline" onclick="goTo('map')">Back to Map</button><button class="btn btn-outline" onclick="goTo('challenge')">Challenge Mode</button></div></div>`;
 c.innerHTML=h;
 }
-function copySm(){let t=document.getElementById('copySummary').textContent;navigator.clipboard.writeText(t).then(()=>{event.target.textContent='Copied!';setTimeout(()=>event.target.textContent='Copy',2000);}).catch(()=>{});}
+function copySm(){generateStudentReport();copyGeneratedReport(event&&event.target?event.target:null);}
 
 // INIT
 function initAll(){updateMap();renderStation1();renderStation2();renderStation3();renderStation4();renderStation5();renderStation6();}
